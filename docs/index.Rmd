@@ -74,7 +74,7 @@ steekproef target 1 = target per tranche (i.e. target 1) * steekproeffactor
 ```
 
 *toevoegen respons tranche 1 en bepaling nieuwe target*\
-Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd. Deze respons wordt uitgelezen als rechte telling per wijk uit de tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader toegevoegd middels een left_join (zie script 03). Vervolgens wordt de nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de hand van de tekorten en overschotten per wijk. De nieuwe target wordt ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is afgerond. 
+Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd. Deze respons wordt uitgelezen als rechte telling per wijk uit de tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader toegevoegd middels een left_join (zie script 03). Vervolgens wordt de nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de hand van de tekorten en overschotten per wijk. De nieuwe target wordt ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is afgerond. Uiteindelijk is het de bedoeling dat er ongeveer 4500 inwoners geïnterviewd worden.
 
 
 ```
@@ -93,7 +93,7 @@ etc ...
 ### weging data en analyse
 
 *weging naar wijk*\
-Na oplevering van het totale databestand wordt de data eerst 'teruggewogen' naar de werkelijke inwonersverhouding per wijk. Wijken die oversampeld zijn krijgen een lager gewicht dan de wijken die ondersampled zijn. De volgende formule kan hiervoor gebruikt worden. De kolom wordt vervolgens als extra kenmerk toegevoegd aan de dataset middels een left_join
+Na oplevering van het totale databestand wordt de data eerst 'teruggewogen' naar de werkelijke inwonersverhouding per wijk. Wijken die oversampeld zijn krijgen een lager gewicht dan de wijken die ondersampled zijn. De volgende formule kan hiervoor gebruikt worden. De kolom wordt vervolgens als extra kenmerk toegevoegd aan de dataset middels een left_join.
 
 ```
 weegfactor_wijk = (respons.per.wijk / totale.respons) / 
