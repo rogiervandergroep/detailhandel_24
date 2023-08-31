@@ -1,0 +1,369 @@
+html {
+  font-size: initial;
+}
+
+body {
+  font-family: "Amsterdam Sans", Arial, sans-serif;
+  color: rgb(50, 50, 50);
+  font-weight: 400;
+  font-size: clamp(
+    1.125rem,
+    1.125rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.75rem, 1.75rem + (0.70 * (100vw - 20rem)) / 100, 2.5rem);
+      margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+h1 {
+  color: black;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 1.75rem + (1.75 * (100vw - 20rem)) / 100, 3.5rem);
+  line-height: clamp(2rem, 2rem + (2 * (100vw - 20rem)) / 100, 4rem);
+  margin-bottom: 15px;
+  margin-top:15px;
+}
+
+h1.title {
+  font-size: clamp(1.75rem, 1.75rem + (1.75 * (100vw - 20rem)) / 100, 3.5rem);
+}
+
+h2 {
+  color: black;
+  font-weight: 800;
+  font-size: clamp(1.75rem, 1.75rem + (1.75 * (100vw - 20rem)) / 100, 3.5rem);
+  line-height: clamp(2rem, 2rem + (2 * (100vw - 20rem)) / 100, 4rem);
+  margin-bottom: 15px;
+  margin-top:15px;
+}
+
+h3 {
+  color: black;
+  font-weight: 800;
+  font-size: clamp(1.5rem, 1.5rem + (1 * (100vw - 20rem)) / 100, 2.5rem);
+  line-height: clamp(2rem, 2rem + (1 * (100vw - 20rem)) / 100, 3rem);
+  margin-bottom: 15px;
+  margin-top:15px;
+}
+
+h4 {
+  color: black;
+  font-weight: 800;
+  font-size: clamp(1.375rem, 1.375rem + (0.625 * (100vw - 20rem)) / 100, 2rem);
+  line-height: clamp(2rem, 2rem + (0.5 * (100vw - 20rem)) / 100, 2.5rem);
+  margin-bottom: 10px;
+  margin-top:10px;
+}
+
+h5 {
+  color: black;
+  font-weight: 800;
+  font-size: clamp(
+    1.125rem,
+    1.125rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(
+    1.625rem,
+    1.625rem + (0.375 * (100vw - 20rem)) / 100,
+    2rem
+  );
+  margin-bottom: 10px;
+  margin-top:10px
+}
+
+.caption {
+
+  font-family: "Amsterdam Sans", Arial, sans-serif;
+  color: rgb(50, 50, 50);
+  font-weight: 600;
+  font-size: clamp(
+    1.1rem,
+    1.1rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.70rem, 1.70rem + (0.70 * (100vw - 20rem)) / 100, 2.5rem);
+  margin-top: 15px;
+  margin-bottom: 15px;
+
+}
+
+.table caption {
+  
+  font-family: "Amsterdam Sans", Arial, sans-serif;
+  color: rgb(50, 50, 50);
+  font-weight: 600;
+  font-size: clamp(
+    1.120rem,
+    1.120rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.70rem, 1.70rem + (0.70 * (100vw - 20rem)) / 100, 2.5rem);
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+
+p {
+  color: rgb(50, 50, 50);
+  font-weight: 400;
+  font-size: clamp(
+    1.125rem,
+    1.125rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.75rem, 1.75rem + (0.75 * (100vw - 20rem)) / 100, 2.5rem);
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+a {
+  font-size: inherit;
+  line-height: inherit;
+  font-weight: 400;
+  color: rgb(0, 70, 153);
+  margin-top: 0px;
+  margin-bottom: 0px;
+  display: inline-flex;
+  -webkit-box-align: baseline;
+  align-items: baseline;
+  text-decoration: underline;
+}
+
+blockquote {
+  padding: 0;
+  border: none;
+  margin: 0px 0px 40px;
+}
+
+blockquote p {
+  color: rgb(50, 50, 50);
+  font-weight: 900;
+  font-style: italic;
+  quotes: "“" "”";
+  font-size: clamp(1.5rem, 1.5rem + (1 * (100vw - 20rem)) / 100, 2.5rem);
+  line-height: clamp(2rem, 2rem + (1 * (100vw - 20rem)) / 100, 3rem);
+}
+
+blockquote p::before {
+  content: open-quote;
+}
+
+blockquote p::after {
+  content: close-quote;
+}
+
+ul,
+ol {
+  list-style: none;
+  margin: 0px 0px 40px;
+  color: rgb(50, 50, 50);
+  font-weight: 400;
+  font-size: clamp(
+    1.125rem,
+    1.125rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.75rem, 1.75rem + (0.75 * (100vw - 20rem)) / 100, 2.5rem);
+  counter-reset: item;
+  padding: 0;
+}
+
+ul li {
+  display: grid;
+  grid-template-columns: min-content auto;
+  -webkit-box-align: baseline;
+  align-items: baseline;
+}
+
+ul li::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: rgb(50, 50, 50);
+  margin-right: 24px;
+}
+
+ol li {
+  display: grid;
+  grid-template-columns: min-content auto;
+  -webkit-box-align: baseline;
+  align-items: baseline;
+  counter-increment: item 1;
+}
+
+ol li::before {
+  content: counter(item) ".";
+  color: rgb(50, 50, 50);
+  margin-right: 12px;
+}
+
+#TOC {
+  color: black;
+  border: none;
+}
+
+#TOC ul li {
+  padding-left: 0;
+}
+
+#TOC ul li:before {
+  margin-right: 0;
+}
+
+.tocify {
+  border-radius: 0;
+}
+
+.toc-content {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.tocify ul.tocify-header,
+.tocify li.tocify-item {
+  line-height: clamp(1.75rem, 1.75rem + (0.75 * (100vw - 20rem)) / 100, 2.5rem);
+}
+
+.tocify-header {
+  text-indent: 0;
+}
+
+.tocify-subheader {
+  text-indent: 24px;
+}
+
+.tocify-subheader .tocify-subheader {
+  text-indent: 48px;
+}
+
+.tocify-subheader .tocify-subheader .tocify-subheader {
+  text-indent: 72px;
+}
+
+.tocify-subheader .tocify-subheader .tocify-subheader .tocify-subheader {
+  text-indent: 96px;
+}
+
+.tocify-item.list-group-item {
+  margin-bottom: 24px;
+}
+
+.tocify-item.list-group-item.active {
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
+  font-weight: 700;
+}
+
+.nav-tabs {
+  width: 100%;
+  overflow-y: hidden;
+  display: inline-flex;
+  flex-direction: row;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  box-shadow: rgb(245 245 245) 0px -2px 0px 0px inset;
+  border-bottom: none;
+  align-items: end;
+}
+
+.nav-tabs > li::before {
+  display: none;
+}
+
+.nav-tabs > li > a {
+  background-color: transparent;
+  padding: 12px 0;
+  color: black;
+  border: none;
+  margin-right: 30px;
+  transition: box-shadow 0.1s ease-in-out 0s, color 0.1s ease-in-out 0s;
+  white-space: nowrap;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: clamp(
+    1.125rem,
+    1.125rem + (0.375 * (100vw - 20rem)) / 100,
+    1.5rem
+  );
+  line-height: clamp(1.75rem, 1.75rem + (0.75 * (100vw - 20rem)) / 100, 2.5rem);
+}
+
+.nav-tabs > li > a:hover,
+.nav-tabs > li > a:focus {
+  border: none;
+  background-color: transparent;
+  box-shadow: black 0px -6px inset;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+  background-color: transparent;
+  border: none;
+  margin-right: 30px;
+  transition: box-shadow 0.1s ease-in-out 0s, color 0.1s ease-in-out 0s;
+  color: rgb(0, 70, 153);
+  box-shadow: rgb(0, 70, 153) 0px -6px inset;
+  white-space: nowrap;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  text-decoration: none;
+}
+
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  width: auto;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+  box-shadow: none;
+  flex-direction: row;
+  border-bottom: 1px solid #ddd;
+  align-items: end;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  width: auto;
+  height: auto;
+  background-color: transparent;
+  margin-right: 0;
+}
+
+.tabset-dropdown .nav-tabs > li.active > a {
+  color: black;
+  box-shadow: none;
+}
+
+.tabset-dropdown .nav-tabs > li > a:hover {
+  box-shadow: none;
+}
+
+.author,
+.date {
+  display: inline;
+  font-size: clamp(1rem, 1rem + (0.125 * (100vw - 20rem)) / 100, 1.125rem);
+  line-height: clamp(
+    1.5rem,
+    1.5rem + (0.125 * (100vw - 20rem)) / 100,
+    1.625rem
+  );
+  font-weight: 500;
+}
+
+.date::before {
+  content: " | ";
+}

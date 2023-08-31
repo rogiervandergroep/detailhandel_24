@@ -1,0 +1,49 @@
+header {
+  padding-top: 20px;
+  padding-bottom: 60px;
+}
+
+@media screen and (max-width: 767px) {
+  header {
+    padding-bottom: 20px;
+  }
+}
+
+header h1 {
+  display: flex;
+  grid-template-columns: repeat(4, 1fr);
+  font-size: clamp(1.5rem, 1.5rem + (1 * (100vw - 20rem)) / 100, 2.5rem);
+  line-height: clamp(2rem, 2rem + (1 * (100vw - 20rem)) / 100, 3rem);
+  margin-top: 0;
+  margin-bottom: 0;
+  line-height: 1;
+  align-items: center;
+  
+  background-color: #3858a4 !important;
+  padding: 16px 24px 40px 16px;
+}
+
+header h1 * {
+	color: white !important;
+}
+
+header img.small {
+  height: 100px;
+  margin-right: 16px;
+  display: flex;
+}
+
+header span {
+  grid-column: auto / span 6;
+	align-self: baseline;
+	max-width: 100px;
+	font-size: 16px;
+	font-weight: 600;
+}
+
+#title {
+	font-size: 40px;
+	max-width: 100%;
+    margin-left: 24px;
+    align-self: flex-end;
+}

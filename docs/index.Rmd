@@ -1,0 +1,195 @@
+---
+title: "Veldwerk Consumentenenquete"
+author:
+  - Rogier van der Groep |  
+  - Onderzoek en Statistiek (O&S) | 
+  - gemeente Amsterdam
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    includes:
+      in_header: assets/head_detailhandel.html
+    css: assets/style/os-style.css
+    toc: no
+---
+
+```{r setup, include=T, echo = F, warning = F}
+
+# zet alle warnings en andere kenmerken op default
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE, 
+                      dev.args=list(bg="transparent"),
+                      fig.height=6, 
+                      fig.width=14)
+
+load("plots.Rdata")
+
+```
+
+### Achtergrond
+
+De consumentenenquete is onderdeel van de Monitor Detailhandel, een onderzoek naar de staat van de Amsterdamse detailhandel dat tweejaarlijks door O&S gepubliceerd wordt. Naast uitkomsten van dit surveyonderzoek wordt in deze monitor aandacht besteed aan de vestigingsdynamiek in de retailsector, banenontwikkeling, leegstand en huurprijsontwikkeling. In dit document worden zaken besproken die betrekking hebben op de organisatie van het veldwerk, waaronder
+
+- de methodiek om het steekproefkader voor het veldwerk te bepalen
+- de methodiek om de data te wegen voor verdere analyse
+- de methodiek om de koopkracht-oriëntatie te berekenen
+
+### Steekproefkader en respons
+
+*Steekproefkader veldwerk*\
+Voor dit veldwerk streven we naar 200 respondenten voor de 23 werkgebieden in Amsterdam met een hoog aantal inwoners (meer dan 20.000 inwoners) en 50 respondenten voor de twee werkgebieden waar (vooralsnog) weinig inwoners wonen (zie figuur 1). Binnen deze werkgebieden is de target per wijk naar ratio van de werkgebieden bepaald door de volgende berekening. De uitkomst hiervan is weergegeven in figuur 2. 
+
+
+```
+target respons per wijk = (inwoneraantal per wijk \ inwoneraantal per gebied) * 200
+```
+
+```{r kaart_geb, fig.cap = figcap,  fig.alt = figalt}
+
+figcap <- "Fig. 1 totale target per werkgebied"
+figalt <- "kaart van Amsterdam met target respons werkgebied"
+
+plot_25geb
+
+```
+
+```{r kaart_wijk, fig.cap = figcap,  fig.alt = figalt}
+
+figcap <- "Fig. 2 totale target per wijk"
+figalt <- "kaart van Amsterdam met target respons wijk"
+
+
+plot_wijk
+
+```
+
+De totale target per wijk wordt door vier gedeeld (want er zijn vier veldwerktranches). De target voor tranche 1 wordt voor  vervolgens in overleg met DCU en Basisstatistiek met een ophogingsfactor vermenigvuldigd (7 of 8)  om de uiteindelijke steekproefgrootte per wijk te bepalen. Basisstatistiek levert vervolgens aan DCU de adressen per wijk die aangeschreven worden.
+
+```
+target per tranche (i.e. target 1) = totale target / 4 (bij vier veldwerktranches)
+steekproef target 1 = target per tranche (i.e. target 1) * steekproeffactor
+
+```
+
+*toevoegen respons tranche 1 en bepaling nieuwe target*\
+Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd. Deze respons wordt uitgelezen als rechte telling per wijk uit de tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader toegevoegd middels een left_join (zie script 03). Vervolgens wordt de nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de hand van de tekorten en overschotten per wijk. De nieuwe target wordt ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is afgerond. 
+
+
+```
+tekort of overschot tranche 1 = respons 1 - target per tranche (i.e. target 1)
+target 2 = tekort of overschot tranche 1 + target per tranche
+steekproef target 2 = target 2 * steekproeffactor
+
+tekort of overschot tranche 2 = respons 2 - target 2
+target 3 = tekort of overschot tranche 2 + target per tranche
+steekproef target 3 = target 3 * steekproeffactor
+
+etc ...
+
+```
+
+### weging data en analyse
+
+*weging naar wijk*\
+Na oplevering van het totale databestand wordt de data eerst 'teruggewogen' naar de werkelijke inwonersverhouding per wijk. Wijken die oversampeld zijn krijgen een lager gewicht dan de wijken die ondersampled zijn. De volgende formule kan hiervoor gebruikt worden. De kolom wordt vervolgens als extra kenmerk toegevoegd aan de dataset middels een left_join
+
+```
+weegfactor_wijk = (respons.per.wijk / totale.respons) / 
+                  (inwoners.per.wijk / inwoners.amsterdam)
+```
+
+*koopkracht-oriëntatie per productgroep en per herkomstgebied*\
+Vervolgens worden rechte tellingen per aankoopgebied (winkelgebieden in Amsterdam, locaties buiten Amsterdam, online, etc.) gemaakt van de vragen die betrekking hebben op waar de producten zijn aangeschaft  (zie script 00 en 01).
+
+```
+- Waar heeft u de laatste keer uw dagelijkse of wekelijkse boodschappen gedaan?
+- Waar heeft u de laatste keer modeartikelen gekocht?
+- Waar heeft u de laatste keer elektronica gekocht?
+- Waar heeft u de laatste keer huishoudelijke artikelen gekocht?
+- Waar heeft u de laatste keer woninginrichting gekocht?
+- Waar heeft u de laatste keer doe-het-zelfartikelen gekocht?
+- Waar heeft u de laatste keer planten en tuinartikelen gekocht?
+- Waar heeft u de laatste keer media-artikelen en hobbyartikelen gekocht?
+- Waar heeft u de laatste keer sportartikelen gekocht?
+- Waar heeft u de laatste keer speelgoed gekocht?
+
+```
+
+Vereenvoudigd kan dat op de volgende manier berekend worden
+
+```r
+
+# NB: Het herkomstgebied is het stadsdeel of werkgebied waar de respondent woont
+
+koopkracht-oriëntatie <- dataset |>
+  
+  pivot_longer(cols = {alle vragen naar aanschaflocatie per productgroep}, 
+               names_to  = productgroep, 
+               values_to = aankoopgebied) |>
+  
+  group_by (productgroep, aankoopgebied, herkomstgebied) |>
+  summarise(aantal_gewogen = sum(weegfactor_wijk))
+
+```
+
+Nu voegen we middels een left_join een lookup_tabel toe met een lijst van stadsdelen en werkgebieden per aanschaflocatie. Op die manier kan de koopkracht-oriëntatie per werkgebied of per stadsdeel bepaald worden.
+
+```r
+
+# Het herkomstgebied is het stadsdeel of werkgebied waar de respondent woont
+
+koopkracht-oriëntatie <- koopkracht-oriëntatie  |>
+  
+  left_join (lookup_tabel, by = aankoopgebied) |>
+  
+  group_by (productgroep, aanschaf_werkgebiedgebied (of aanschaf_stadsdeel), herkomstgebied) |>
+  summarise (aantal = sum(aantal_gewogen))|>
+  
+  group_by (productgroep, herkomstgebied) |>
+  mutate(aandeel = aantal/sum(aantal)*100)
+
+```
+
+*Berekening totale koopkracht-oriëntatie Amsterdam*\
+De totale koopkracht-oriëntatie voor dagelijkse boodschappen en voor niet-dagelijkse producten voor heel Amsterdam wordt berekend door te kijken naar de aanbestedingslocaties van alle respondenten zonder apart te vermelden waar deze respondenten vandaan komen. De respondenten krijgen een weegfactor mee, gebaseerd op het gemiddelde besteedbaar inkomen per stadsdeel: respondenten uit Centrum en Zuid krijgen dan een hogere weegfactor dan de respondenten uit Noord. Via de BBGA is het mogelijk om het relatieve inkomen per werkgebied of per stadsdeel als weegfactor toe te voegen aan elke respondent. 
+
+```r
+
+# weegfactor_ink =  gemiddeld besteedbaar inkomen stadsdeel (of werkgebied)  / 
+#                   gemiddeld besteedbaar inkomen Amsterdam
+
+koopkracht-oriëntatie per productgroep totaal Amsterdam <- dataset |>
+  
+  pivot_longer(cols={alle vragen naar aanschaflocatie per productgroep}, 
+               names_to= "productgroep", 
+               values_to=aankoopgebied) |>
+               
+  # NB: herkomstgebied ontbreekt hier
+  
+  group_by (productgroep, aankoopgebied) |> 
+  summarise(aantal_gewogen = sum(weegfactor_wijk * weegfactor_ink)) |>
+  
+  left_join (lookup_tabel, by = aankoopgebied) |>
+ 
+  group_by  (productgroep, aanschaf_werkgebiedgebied (of aanschaf_stadsdeel)) |>
+  summarise (aantal = sum(aantal_gewogen))|>
+  
+  group_by (productgroep) |>
+  mutate   (aandeel = aantal/sum(aantal)*100)
+
+```
+                      
+*Berekening totale koopkracht-oriëntatie niet-dagelijke boodschappen* \
+Van de koopkracht-oriëntatiescijfers per niet-dagelijkse productgroep kan ook een gemiddelde berekend worden. Hiervoor wordt een weegfactor per productgroep toegevoegd. Via de website https://www.retailinsiders.nl/branches/ is het mogelijk om per productgroep de omzet per inwoner te bepalen. Het aandeel van deze omzet per productgroep van de totale omzet wordt gebruikt als weegfactor.
+
+```
+koopkracht-oriëntatie totaal niet-dagelijkse producten = 
+
+  gemiddelde(
+    koopkracht-oriëntatie modeartikelen * weegfactor mode , 
+    koopkracht-oriëntatie electronica   * weegfactor electronica, 
+    etc ...)
+
+```

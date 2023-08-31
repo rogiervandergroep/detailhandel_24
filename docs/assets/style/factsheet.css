@@ -1,0 +1,9 @@
+#colofon {
+	background-color: #3858a4 !important;
+    margin-top: 40px;
+    padding: 8px 40px;
+}
+
+#colofon * {
+	color: white !important;
+}
