@@ -46,3 +46,5 @@ steekproefkader|>
   summarise(target_totaal=sum(target_totaal),
             target_t_basis=sum(target_t_basis))
 
+saveRDS(steekproefkader, file = "03 output tabellen/steekproefkader.rds")
+

@@ -13,7 +13,11 @@ output:
     toc: no
 ---
 
-```{r setup, include=T, echo = F, warning = F}
+```{r setup, include=T, echo = F, warning = F, message = F}
+
+library (tidyverse)
+library (sf)
+library (scales)
 
 # zet alle warnings en andere kenmerken op default
 
@@ -24,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.height=6, 
                       fig.width=14)
 
-load("plots.Rdata")
+load("../03 output tabellen/plots.Rdata")
 
 ```
 
