@@ -3,54 +3,13 @@ library(openxlsx)
 library(haven)
 
 
-source('http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R')
-
-
-
-
-db_con_ref2 <- function(
-    db_config = NULL, 
-    path = "H:/db_configs/referentiedb.yml",
-    from_env = F){
-  
-  library(yaml)
-  library(DBI)
-  
-  result    <- system("az account get-access-token --resource-type oss-rdbms", intern = T)
-  result2   <- str_extract_all(result, '"([^"]+)"')
-  result3   <- result2[[2]][2]
-  db_token  <- result <- gsub('"', '', result3)
-  
-
-  
-  
-  if(dir.exists('G:/OIS')){
-    db_config <- yaml.load_file(path)$default
-  } else {
-    
-    # to do: get dbconfig van windows credential store 
-    db_config <- yaml.load_file(path)$default
-    
-  }
-  
-  
-  con <- dbConnect(RPostgres::Postgres(),
-                   host = db_config$host,
-                   dbname = db_config$dbname,
-                   user = db_config$user,
-                   password = db_token,
-                   port = db_config$port,
-                   bigint="integer")
-  
-  return(con)
-  
-}
+source("03 R scripts/scripts 01 weging en respons/script 00 setup.R")
 
 
 
 # inwoners per wijk 2023
 wijk_inw22 <- dbGetQuery(
-  con = db_con_ref2(path =  "C:/Users/groep001/Documents/referentiedb.yml"),
+  con = db_con_ref2(path =  pad),
   "
  SELECT jaar, gebiedcode_15, waarde, indicator_definitie_id
  FROM public.bbga_kerncijfers
