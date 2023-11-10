@@ -1,44 +1,27 @@
-library(tidyverse)
-library(haven)
+
 
 # lees libraries in met setup
 source("03 R scripts/scripts 01 weging en respons/script 00 setup.R")
 
-# inlezen data
-### toevoegen tijdelijke data 2022 2023
-datadef24_1 <- read_spss("00 ruwe data 2022 2023/230349_1_gecodeerd.sav")
-datadef24_2 <- read_spss("00 ruwe data 2022 2023/230349_2_gecodeerd.sav")
-datadef24_3 <- read_spss("00 ruwe data 2022 2023/230349_3_tussentijds.sav")
-
-datadef24 <- bind_rows(datadef24_1, datadef24_2, datadef24_3)
-rm(datadef24_1, datadef24_2, datadef24_3)
-
-# inlezen respons
-df_inw <- read.xlsx("02 lookup tabellen/22015 basis voor steekproeftrekking 2022 2023 steek 2.xlsx")%>%
-  mutate(inw_aandeel = inwoners22/sum(inwoners22),
-         resp_aandeel= respons_t1/sum(respons_t1),
-         weegfactor  = case_when(resp_aandeel == 0 ~ 1,
-                                 TRUE ~ (inw_aandeel/resp_aandeel)))
-
-## to do : weegfactor gemiddeld inkomen naar stadsdeel
-
-# stap 1 inlezen weegfactor per stadsdeel
-
-# stap 2 berekening nieuwe weegfactor gebieds_weeegfactor te vermenigvuldigen met inkomen
+# inlezen data met weegfactoren 
+# uit "03 R scripts/scripts 01 weging en respons/script 05 wegingsfactoren.R"
 
 
-# weegfactor om wijken met lage responds op te hogen en vv
-datadef24<-datadef24 |>
-  left_join(df_inw[, c("wijk_code", "weegfactor")], 
-            by=c("gbd_wijk_code"="wijk_code"))
+
+load(file = "03 tussentijds/data_24_DEF.RDS")
+
+
+
+
+  
 
 
 # hercoderen achtergrondvars
 
 my_opl <- function(x){
-  
+
   x %>% mutate(opleiding=
-                 case_when(OPLEID %in% c("lagere school, basisschool, speciaal onderwijs", 
+                 case_when(OPLEID %in% c("lagere school, basisschool, speciaal onderwijs",
                                          "geen opleiding gevolgd of enkele jaren lagere school, basisschool gevolgd",
                                          "VBO/LBO (huishoud-, ambachtsschool, LTS, interne bedrijfsopleiding), MBO-kort, BBL/BOL 1-2, leerlingwezen, ULO") ~ "praktisch opgeleid",
                            OPLEID %in% c("MAVO, MULO, VMBO",
@@ -47,13 +30,13 @@ my_opl <- function(x){
                            OPLEID %in% c("WO, universiteit, kandidaatsexamen",
                                          "HBO, interne opleiding op hbo-niveau") ~  "theoretisch opgeleid",
                            TRUE ~ 'onbekend'))
-  
+
 }
 
 my_inkomen <- function(x){
-  
+
   x %>% mutate(inkomen=
-                 case_when(INKOMEN %in% c("netto 1.000 euro per maand of minder", 
+                 case_when(INKOMEN %in% c("netto 1.000 euro per maand of minder",
                                           "netto tussen de 1.001 en 1.350 euro per maand",
                                           "netto tussen de 1.351 en 1.750 euro per maand") ~"inkomen laag",
                            INKOMEN %in% c("netto tussen de 1.751 en 3.050 euro per maand",
@@ -62,22 +45,22 @@ my_inkomen <- function(x){
                            INKOMEN %in% c("netto tussen de 5.001 en 6.000 euro per maand",
                                           "netto meer dan 6.000 euro per maand")           ~"inkomen hoog",
                            TRUE ~ 'weet niet, geen antwoord'))
-  
+
 }
 
 my_gesl <- function(x) {
-  
-  
+
+
   x %>% mutate(geslacht=
                  case_when(GESL == 'man' ~ 'man',
                            GESL == 'vrouw' ~ 'vrouw',
                            TRUE ~ 'onbekend'))
-  
-} 
+
+}
 
 my_huish<- function (x) {
-  
-  x %>% 
+
+  x %>%
     mutate(
       huishouden=
              case_when(HHSAM == "een persoon, alleenstaande" ~ "een persoon",
@@ -86,24 +69,24 @@ my_huish<- function (x) {
                        HHSAM == "een ouder met kind(eren) thuis"~ "een ouder",
                        TRUE ~ "overig, onbekend"))
 
-  
+
 }
 
 my_leeftijd<- function(x){
-  
-  x %>% 
+
+  x %>%
     mutate(
       leeftijdklas=
         case_when(LEEFTD < 35 ~"35 jaar of jonger",
                   LEEFTD %in% c(35:55) ~ "35 jaar tot en met 55 jaar",
                   LEEFTD > 55 ~"55 jaar of ouder",
                   TRUE ~ "onbekend"))
-  
+
 }
 
 ## def herkomst functie
 my_herkomst <- function (x) {
-  
+
   x%>%
     my_opl()%>%
     my_gesl()%>%
@@ -111,27 +94,84 @@ my_herkomst <- function (x) {
     my_huish()%>%
     my_leeftijd
 
-  
+
 }
 
 herkomst_var <- c("OPLEID", "INKOMEN", "HHSAM", "GESL", "LEEFTD")
 herkomst_var_nieuw <- c("opleiding", "inkomen", "huishouden", "geslacht", "leeftijdklas")
 
-datadef24$Respondent_ID<- str_pad(
-  datadef24$Respondent_ID, 
-  width=5, 
-  pad="0", 
-  side= "left")
 
-datadef24_herk<- datadef24 %>%
+
+data_24_weeg_herk<- data_24_weeg %>%
   select(Respondent_ID, any_of(herkomst_var))%>%
   haven::as_factor()
 
-datadef24_herk <- datadef24_herk %>%
+data_24_weeg_herk <- data_24_weeg_herk %>%
   my_herkomst()%>%
   select (Respondent_ID, any_of(herkomst_var_nieuw))
 
-datadef24<- datadef24%>%
-  left_join(datadef24_herk, by = "Respondent_ID")
+data_24_weeg<- data_24_weeg%>%
+  left_join(data_24_weeg_herk, by = "Respondent_ID")
 
-saveRDS(datadef24, file= "02 lookup tabellen/werkbestand consumenten enquete.rds")
+##### winkelgebieden per productgroep NDG ----
+pdg_code <- c(
+  
+  "V18_nw_modeartikelen_GV1",
+  "V18_nw_elektronica_GV1",
+  "V18_nw_huishoudelijk_GV1",
+  "V18_nw_woninginrichting_GV1",
+  "V18_nw_doehetzelf_GV1",
+  "V18_nw_planten_GV1",  
+  "V18_nw_media_GV1",  
+  "V18_nw_sportspel_GV1")
+
+pdg_naam <- c(
+  
+  "modeartikelen",
+  "elektronica",
+  "huishoudelijke artikelen",
+  "woninginrichting",
+  "doe het zelf",
+  "planten en bloemen",  
+  "media en vrijetijd",  
+  "sport en spel")
+
+
+# andere aanschaflocaties NDG -
+pdg_anders <- c(
+  
+  "V18_nw_modeartikelen_GV1_Codes",                        
+  "V18_nw_elektronica_GV1_Codes",                       
+  "V18_nw_huishoudelijk_GV1_Codes",  
+  "V18_nw_woninginrichting_GV1_Codes",  
+  "V18_nw_doehetzelf_GV1_Codes",    
+  "V18_nw_planten_GV1_Codes",  
+  "V18_nw_media_GV1_Codes", 
+  "V18_nw_sportspel_GV1_Codes")
+
+# V18_nw_modeartikelen_GV1		0,188
+# V18_nw_elektronica_GV1		  0,084
+# V18_nw_huishoudelijk_GV1		0,171
+# V18_nw_woninginrichting_GV1	0,258
+# V18_nw_doehetzelf_GV1	      0,043
+# V18_nw_planten_GV1		      0,050
+# V18_nw_media_GV1		        0,080
+# V18_nw_sportspel_GV1		    0,032
+
+omzetcijfers <- c(0.188,
+                  0.084,
+                  0.171,
+                  0.258,
+                  0.043,
+                  0.050,
+                  0.080,
+                  0.032)
+
+df_omzetcijfers <- tibble(pdg_code, pdg_naam, omzetcijfers)
+
+
+
+
+
+
+save(data_24_weeg, pdg_code, pdg_naam, pdg_anders, omzetcijfers, df_omzetcijfers, file= "03 tussentijds/data_24_DEF.Rdata")

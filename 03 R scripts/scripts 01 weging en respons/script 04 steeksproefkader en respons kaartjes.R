@@ -1,7 +1,7 @@
 
-source("01 scripts weging en respons/script 00 setup.R")
+source("03 R scripts/scripts 01 weging en respons/script 00 setup.R")
 
-steekproefkader <- readRDS("03 output tabellen/steekproefkader.rds")
+steekproefkader <- readRDS("04 output tabellen/steekproefkader.rds")
 
 ### KAART 1 TARGET PER GEBIED  ---
 
@@ -18,16 +18,17 @@ kleuren<- c("#004699", "#5d6fb3", "#959dcc", "#cacde6")
 
 plot_25geb <-  kaart_25geb |>
   ggplot()+
-  geom_sf(aes(fill = target ), linewidth = 0.9 , color = "white" )+
-  scale_fill_manual(values=kleuren[c(3,4)])+
-  guides(fill=guide_legend(title=NULL))+
   theme_os_map()+
+  geom_sf(aes(fill = target), size=1.25 )+
+  #geom_sf_text(aes(label = naam, check_overlap = T))+
+  scale_fill_manual(values=kleuren[c(3,4)])
+  guides(fill=guide_legend(title=NULL))+
   theme(axis.text.x = element_blank(),
         axis.text.y = element_blank(),
         axis.ticks = element_blank(),
         rect = element_blank())
 
-plot_25geb
+
 
 
 
@@ -42,17 +43,18 @@ kaart_wijken <- geojson_sf(geo_json2)|>
   
 plot_wijk <- kaart_wijken |>
   ggplot()+
-  geom_sf(aes(), fill= kleuren[3], linewidth =0.8, colour='white')+
-  geom_sf_text(aes(label = target_totaal),  fontsize = 1.8)+
-  guides(fill = guide_legend(title=NULL))+
   theme_os_map()+
+  geom_sf(aes(), fill= kleuren[4], size=0.9, colour='red')+
+  geom_sf_text(aes(label = target_totaal),  size=2)+
+  geom_sf(data = kaart_25geb, aes(), fill=NA, size=1.1 )+
+  guides(fill=guide_legend(title=NULL))+
   theme(axis.text.x = element_blank(),
         axis.text.y = element_blank(),
-        axis.ticks  = element_blank(),
+        axis.ticks = element_blank(),
         rect = element_blank())
 
 plot_wijk
 
-save(plot_25geb, plot_wijk, file="03 output tabellen/plots.Rdata")
+save(plot_25geb, plot_wijk, file="03 R scripts/scripts Markdowns/plots.Rdata")
 
 
