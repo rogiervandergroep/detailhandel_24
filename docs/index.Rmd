@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.height=6, 
                       fig.width=14)
 
-load("../03 output tabellen/plots.Rdata")
+load("../04 output tabellen/plots.Rdata")
 
 ```
 
@@ -78,7 +78,7 @@ steekproef target 1 = target per tranche (i.e. target 1) * steekproeffactor
 ```
 
 *toevoegen respons tranche 1 en bepaling nieuwe target*\
-Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd. Deze respons wordt uitgelezen als rechte telling per wijk uit de tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader toegevoegd middels een left_join (zie script 03). Vervolgens wordt de nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de hand van de tekorten en overschotten per wijk. De nieuwe target wordt ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is afgerond. Uiteindelijk is het de bedoeling dat er ongeveer 4500 inwoners geïnterviewd worden.
+Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd. Deze respons wordt uitgelezen als rechte telling per wijk uit de tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader toegevoegd middels een left_join [zie script](https://github.com/rogiervandergroep/detailhandel_24/blob/cd57e062b3f65f19c9e129f7e12605a9d5403a9c/03%20R%20scripts/scripts%2001%20weging%20en%20respons/script%2003%20respons%20per%20tranche.R). Vervolgens wordt de nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de hand van de tekorten en overschotten per wijk. De nieuwe target wordt ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is afgerond. Uiteindelijk is het de bedoeling dat er ongeveer 4500 inwoners geïnterviewd worden.
 
 
 ```
@@ -105,7 +105,7 @@ weegfactor_wijk = (respons.per.wijk / totale.respons) /
 ```
 
 *koopkracht-oriëntatie per productgroep en per herkomstgebied*\
-Vervolgens worden rechte tellingen per aankoopgebied (winkelgebieden in Amsterdam, locaties buiten Amsterdam, online, etc.) gemaakt van de vragen die betrekking hebben op waar de producten zijn aangeschaft  (zie script 00 en 01).
+Vervolgens worden rechte tellingen per aankoopgebied (winkelgebieden in Amsterdam, locaties buiten Amsterdam, online, etc.) gemaakt van de vragen die betrekking hebben op waar de producten zijn aangeschaft [zie script](https://github.com/rogiervandergroep/detailhandel_24/blob/cd57e062b3f65f19c9e129f7e12605a9d5403a9c/03%20R%20scripts/scripts%2002%20analyse/script%2001%201%20koopkrachtbinding%20tabellen%20basis.R).
 
 ```
 - Waar heeft u de laatste keer uw dagelijkse of wekelijkse boodschappen gedaan?

@@ -426,7 +426,7 @@ display: none;
 <h4 class="author">Rogier van der Groep |</h4>
 <h4 class="author">Onderzoek en Statistiek (O&amp;S) |</h4>
 <h4 class="author">gemeente Amsterdam</h4>
-<h4 class="date">31 augustus, 2023</h4>
+<h4 class="date">10 november, 2023</h4>
 
 </div>
 
@@ -482,12 +482,13 @@ steekproef target 1 = target per tranche (i.e. target 1) * steekproeffactor
 Na afronding van de eerste veldwerkperiode wordt de respons bestudeerd.
 Deze respons wordt uitgelezen als rechte telling per wijk uit de
 tijdelijke SPSS-file. De frequentietabel wordt aan het steekproefkader
-toegevoegd middels een left_join (zie script 03). Vervolgens wordt de
-nieuwe target per wijk voor de volgende veldwerkperiode geupdate aan de
-hand van de tekorten en overschotten per wijk. De nieuwe target wordt
-ook opgehoogd met de afgesproken steekproeffactor. Deze stappen worden
-herhaald totdat het veldwerk is afgerond. Uiteindelijk is het de
-bedoeling dat er ongeveer 4500 inwoners geïnterviewd worden.</p>
+toegevoegd middels een left_join <a href="https://github.com/rogiervandergroep/detailhandel_24/blob/cd57e062b3f65f19c9e129f7e12605a9d5403a9c/03%20R%20scripts/scripts%2001%20weging%20en%20respons/script%2003%20respons%20per%20tranche.R">zie
+script</a>. Vervolgens wordt de nieuwe target per wijk voor de volgende
+veldwerkperiode geupdate aan de hand van de tekorten en overschotten per
+wijk. De nieuwe target wordt ook opgehoogd met de afgesproken
+steekproeffactor. Deze stappen worden herhaald totdat het veldwerk is
+afgerond. Uiteindelijk is het de bedoeling dat er ongeveer 4500 inwoners
+geïnterviewd worden.</p>
 <pre><code>tekort of overschot tranche 1 = respons 1 - target per tranche (i.e. target 1)
 target 2 = tekort of overschot tranche 1 + target per tranche
 steekproef target 2 = target 2 * steekproeffactor
@@ -514,8 +515,8 @@ middels een left_join.</p>
 herkomstgebied</em><br />
 Vervolgens worden rechte tellingen per aankoopgebied (winkelgebieden in
 Amsterdam, locaties buiten Amsterdam, online, etc.) gemaakt van de
-vragen die betrekking hebben op waar de producten zijn aangeschaft (zie
-script 00 en 01).</p>
+vragen die betrekking hebben op waar de producten zijn aangeschaft <a href="https://github.com/rogiervandergroep/detailhandel_24/blob/cd57e062b3f65f19c9e129f7e12605a9d5403a9c/03%20R%20scripts/scripts%2002%20analyse/script%2001%201%20koopkrachtbinding%20tabellen%20basis.R">zie
+script</a>.</p>
 <pre><code>- Waar heeft u de laatste keer uw dagelijkse of wekelijkse boodschappen gedaan?
 - Waar heeft u de laatste keer modeartikelen gekocht?
 - Waar heeft u de laatste keer elektronica gekocht?
