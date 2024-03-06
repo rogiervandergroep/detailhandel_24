@@ -1,0 +1,395 @@
+"";"spatial_code";"spatial_name";"spatial_type";"spatial_date";"temporal_date";"temporal_type";"measure";"value"
+"1";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";40,56
+"2";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";22,13
+"3";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";6,25
+"4";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";31,06
+"5";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";79,44
+"6";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";17,86
+"7";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,28
+"8";"GA01";"Centrum-West";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,42
+"9";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";15,72
+"10";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";43,56
+"11";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";6,62
+"12";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";34,08
+"13";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";71,72
+"14";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";25,95
+"15";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";1,16
+"16";"GA02";"Centrum-Oost";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";1,17
+"17";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";8,19
+"18";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";47,85
+"19";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";4,85
+"20";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";39,11
+"21";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";61,27
+"22";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";33,64
+"23";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,44
+"24";"GE03";"Westerpark";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,63
+"25";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";10,58
+"26";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";38,63
+"27";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";11
+"28";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";39,76
+"29";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";65,75
+"30";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";29,21
+"31";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,84
+"32";"GE04";"Bos en Lommer";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,19
+"33";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";35,76
+"34";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";22,48
+"35";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";2,95
+"36";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";38,81
+"37";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";90,78
+"38";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";6,47
+"39";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,83
+"40";"GE05";"Oud West, De Baarsjes";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";1,93
+"41";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";2,16
+"42";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";29,79
+"43";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";16,42
+"44";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";51,62
+"45";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";0
+"46";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";80
+"47";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0
+"48";"GF06";"Sloterdijk Nieuw-West";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";20
+"49";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";18,51
+"50";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";30,58
+"51";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";14,69
+"52";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";36,25
+"53";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";65,36
+"54";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";25,85
+"55";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";4,51
+"56";"GF07";"Geuzenveld, Slotermeer";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,27
+"57";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";27,08
+"58";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";25,09
+"59";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";14,35
+"60";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";33,47
+"61";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";67,83
+"62";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";23,68
+"63";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";5,7
+"64";"GF08";"Osdorp";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,79
+"65";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";8,98
+"66";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";39,04
+"67";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";16,75
+"68";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";35,24
+"69";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";67,6
+"70";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";25,46
+"71";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";4,3
+"72";"GF09";"De Aker, Sloten, Nieuw-Sloten";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,66
+"73";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";5,22
+"74";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";42,58
+"75";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";8,4
+"76";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";43,8
+"77";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";62,49
+"78";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";29,79
+"79";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";1,62
+"80";"GF10";"Slotervaart";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";6,08
+"81";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";19,73
+"82";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";37,08
+"83";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,52
+"84";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";35,66
+"85";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";70,45
+"86";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";27,55
+"87";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0
+"88";"GK11";"Oud-Zuid";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";1,98
+"89";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";24,92
+"90";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";25,57
+"91";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";12,12
+"92";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";37,38
+"93";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";78,86
+"94";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";14,63
+"95";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,84
+"96";"GK12";"Buitenveldert, Zuidas";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";5,68
+"97";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";30,76
+"98";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";25,42
+"99";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";5,76
+"100";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";38,06
+"101";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";89,94
+"102";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";8,25
+"103";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,51
+"104";"GK13";"De Pijp, Rivierenbuurt";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";1,29
+"105";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";20,18
+"106";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";38,13
+"107";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";4,1
+"108";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";37,6
+"109";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";75
+"110";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";20
+"111";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,75
+"112";"GM14";"Oud-Oost";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,24
+"113";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";16,34
+"114";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";39,07
+"115";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,61
+"116";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";36,97
+"117";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";81,31
+"118";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";16,31
+"119";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0
+"120";"GM15";"Indische Buurt, Oostelijk Havengebied";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,39
+"121";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";14,92
+"122";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";40,03
+"123";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,85
+"124";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";37,18
+"125";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";49,98
+"126";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";41,77
+"127";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";3,98
+"128";"GM16";"Watergraafsmeer";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,27
+"129";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";8,76
+"130";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";35,7
+"131";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";11,46
+"132";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";44,06
+"133";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";58,73
+"134";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";22,11
+"135";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";12,47
+"136";"GM17";"IJburg, Zeeburgereiland";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";6,68
+"137";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";7
+"138";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";42,94
+"139";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";16,72
+"140";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";33,32
+"141";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";65,2
+"142";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";24,47
+"143";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";7,86
+"144";"GN18";"Noord-West";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,45
+"145";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";15,08
+"146";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";38,47
+"147";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,15
+"148";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";39,31
+"149";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";50
+"150";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";44,34
+"151";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,86
+"152";"GN19";"Oud-Noord";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,8
+"153";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";27,62
+"154";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";25,8
+"155";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";8,58
+"156";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";38,01
+"157";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";82,5
+"158";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";12,08
+"159";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";2,37
+"160";"GN20";"Noord-Oost";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";3,05
+"161";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";26,28
+"162";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";14,58
+"163";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";23,61
+"164";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";35,52
+"165";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";79,82
+"166";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";4,23
+"167";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";11,95
+"168";"GS25";"Weesp, Driemond";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4
+"169";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";33,16
+"170";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";26,84
+"171";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,83
+"172";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";32,18
+"173";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";6,67
+"174";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";73,33
+"175";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";20
+"176";"GT21";"Bijlmer-West";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";0
+"177";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";20,96
+"178";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";36,96
+"179";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";9
+"180";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";33,08
+"181";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";61,27
+"182";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";24,91
+"183";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";7,43
+"184";"GT22";"Bijlmer-Centrum";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";6,43
+"185";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";3,66
+"186";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";45,88
+"187";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";12,06
+"188";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";38,39
+"189";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";39,13
+"190";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";35,35
+"191";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";18
+"192";"GT23";"Bijlmer-Oost";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";7,52
+"193";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";12,88
+"194";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";42,56
+"195";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";11,09
+"196";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";33,46
+"197";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";60,09
+"198";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";26,08
+"199";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";9,91
+"200";"GT24";"Gaasperdam";"gebieden";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";3,92
+"201";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"BHNDG_BINDAMS_P";65,89
+"202";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"BHNDG_BINDNL_P";9,66
+"203";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"BHNDG_BINDONLINE_P";24,45
+"204";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"BHDG_BINDAMS_P";94,18
+"205";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"BHDG_BINDNL_P";3,28
+"206";"0363";"Amsterdam";"Gemeente";"20220401";"20200101";"peildatum";"EDG_BINDONLINE_P";2,53
+"207";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"BHNDG_BINDAMS_P";53,56
+"208";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"BHNDG_BINDNL_P";7,06
+"209";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"BHNDG_BINDONLINE_P";39,36
+"210";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"BHDG_BINDAMS_P";89,93
+"211";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"BHDG_BINDNL_P";3,78
+"212";"0363";"Amsterdam";"Gemeente";"20220401";"20220101";"peildatum";"EDG_BINDONLINE_P";6,28
+"213";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"BHNDG_BINDAMS_P";54,31
+"214";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"BHNDG_BINDNL_P";8,7
+"215";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"BHNDG_BINDONLINE_P";36,97
+"216";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"BHDG_BINDAMS_P";93,74
+"217";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"BHDG_BINDNL_P";2,93
+"218";"0363";"Amsterdam";"Gemeente";"20220401";"20240101";"peildatum";"EDG_BINDONLINE_P";3,34
+"219";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";44,66
+"220";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";25,72
+"221";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";5,68
+"222";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";23,93
+"223";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";79,7
+"224";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";17,98
+"225";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";0,37
+"226";"A";"Centrum";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";1,93
+"227";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";40,3
+"228";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";23,08
+"229";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";3,71
+"230";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";32,91
+"231";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";81,06
+"232";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";14,31
+"233";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";0,94
+"234";"A";"Centrum";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";3,69
+"235";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";38,63
+"236";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";22,28
+"237";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";6,44
+"238";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";32,64
+"239";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";82,72
+"240";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";14,78
+"241";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,74
+"242";"A";"Centrum";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";1,77
+"243";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";27,66
+"244";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";35,64
+"245";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";8,43
+"246";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";28,26
+"247";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";84,11
+"248";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";12,83
+"249";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";1,26
+"250";"E";"West";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";1,81
+"251";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";23,09
+"252";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";27,47
+"253";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";5,67
+"254";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";43,78
+"255";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";80,05
+"256";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";13,05
+"257";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";0,16
+"258";"E";"West";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";6,74
+"259";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";29,38
+"260";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";26,47
+"261";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";5,07
+"262";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";39,08
+"263";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";84,83
+"264";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";11,32
+"265";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,73
+"266";"E";"West";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";3,13
+"267";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";37,14
+"268";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";25,92
+"269";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";14,73
+"270";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";22,2
+"271";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";83,23
+"272";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";10,51
+"273";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";3,22
+"274";"F";"Nieuw-West";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";3,04
+"275";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";29,73
+"276";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";21,26
+"277";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";10,09
+"278";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";38,92
+"279";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";76,27
+"280";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";12,83
+"281";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";6,07
+"282";"F";"Nieuw-West";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";4,85
+"283";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";28,58
+"284";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";20,41
+"285";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";13,06
+"286";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";37,96
+"287";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";79,22
+"288";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";12,74
+"289";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";3,8
+"290";"F";"Nieuw-West";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,23
+"291";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";38,18
+"292";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";29,52
+"293";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";9,08
+"294";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";23,22
+"295";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";90,9
+"296";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";4,92
+"297";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";1,81
+"298";"K";"Zuid";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";2,37
+"299";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";32,4
+"300";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";23,03
+"301";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";6,37
+"302";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";38,22
+"303";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";87,14
+"304";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";4,34
+"305";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";2,68
+"306";"K";"Zuid";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";5,84
+"307";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";35,24
+"308";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";20,17
+"309";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,73
+"310";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";36,85
+"311";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";92,68
+"312";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";4,57
+"313";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";0,35
+"314";"K";"Zuid";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";2,42
+"315";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";32,43
+"316";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";34,04
+"317";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";7,66
+"318";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";25,87
+"319";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";82,11
+"320";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";11,87
+"321";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";2,7
+"322";"M";"Oost";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";3,32
+"323";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";28,34
+"324";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";21,28
+"325";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";6,87
+"326";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";43,53
+"327";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";80,58
+"328";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";10,15
+"329";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";2,58
+"330";"M";"Oost";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";6,69
+"331";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";28,46
+"332";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";25,13
+"333";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";7,7
+"334";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";38,7
+"335";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";81,14
+"336";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";10,77
+"337";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";3,86
+"338";"M";"Oost";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4,23
+"339";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";43,2
+"340";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";20,81
+"341";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";10,64
+"342";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";25,34
+"343";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";89,02
+"344";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";3,75
+"345";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";5,09
+"346";"N";"Noord";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";2,13
+"347";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";39,59
+"348";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";15,93
+"349";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";8,08
+"350";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";36,4
+"351";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";81,57
+"352";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";5,87
+"353";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";3,57
+"354";"N";"Noord";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";8,99
+"355";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";35,33
+"356";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";16,92
+"357";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";10,92
+"358";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";36,84
+"359";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";87,04
+"360";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";5,73
+"361";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";3,78
+"362";"N";"Noord";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";3,45
+"363";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDGEB_P";53,22
+"364";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDAMS_P";13,42
+"365";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDNL_P";12,09
+"366";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHNDG_BINDONLINE_P";21,29
+"367";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDGEB_P";78,43
+"368";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDAMS_P";6,78
+"369";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"BHDG_BINDNL_P";12,05
+"370";"T";"Zuidoost";"stadsdelen";"20220324";"20200101";"peildatum";"EDG_BINDONLINE_P";2,75
+"371";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDGEB_P";41,51
+"372";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDAMS_P";9,53
+"373";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDNL_P";9,81
+"374";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHNDG_BINDONLINE_P";39,15
+"375";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDGEB_P";69,39
+"376";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDAMS_P";7,48
+"377";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"BHDG_BINDNL_P";14,89
+"378";"T";"Zuidoost";"stadsdelen";"20220324";"20220101";"peildatum";"EDG_BINDONLINE_P";8,24
+"379";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";44,81
+"380";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";9,62
+"381";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";10,7
+"382";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";34,87
+"383";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";73,79
+"384";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";8,2
+"385";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";12,53
+"386";"T";"Zuidoost";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";5,48
+"387";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDGEB_P";26,28
+"388";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDAMS_P";14,59
+"389";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDNL_P";23,61
+"390";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHNDG_BINDONLINE_P";35,52
+"391";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDGEB_P";79,82
+"392";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDAMS_P";4,23
+"393";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"BHDG_BINDNL_P";11,95
+"394";"S";"Weesp";"stadsdelen";"20220324";"20240101";"peildatum";"EDG_BINDONLINE_P";4

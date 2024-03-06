@@ -1,0 +1,271 @@
+---
+title: "Veldwerk Consumentenenquete 2022 2023"
+author: "Rogier van der Groep (O&S)"
+date: "5-7-2022"
+output:
+  html_document:
+    includes:
+      in_header: assets/head.html
+    css: assets/style/os-style.css
+    toc: yes
+    toc_float:
+      collapsed: true
+---
+
+```{r setup, include=T}
+
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE, 
+                      message = FALSE)
+
+#structureel uitzetten van warnings; structureel hoogte en dte instellen
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE, 
+                      message = FALSE, 
+                      dev.args=list(bg="transparent"),
+                      fig.height=6, 
+                      fig.width=14)
+
+source("R scripts/script 00 setup.R")
+source("R scripts/script 01 respons consumentenenquete 2022.R")
+source("R scripts/script 02 steeksproefkader en respons tabellen.R")
+source("R scripts/script 03 respons per tranche.R")
+source("R scripts/script 04 steeksproefkader en respons kaartjes.R")
+
+
+```
+
+### Achtergrond
+
+De Consumentenenquete is onderdeel van de Monitor Detailhandel, een onderzoek naar de Staat van de Amsterdamse Detailhandel dat tweejaarlijks door O&S gepubliceerd wordt. Naast bevindingen van dit surveyonderzoek wordt er in deze monitor aandacht besteed aan  vestigingsdynamiek in de retailsector, banenontwikkeling, leegstand en huurprijsontwikkeling.
+
+In dit deel worden de volgende zaken bespoken met betrekking tot de enquete:
+
+- bepaling steekproefkader veldwerk 
+- weging data
+- methodes om koopkrachtbinging te bereken
+
+### Steekproefkader Veldwerk
+
+Voor dit veldwerk streven we naar 200 respondenten voor de 23 gebieden in Amsterdam met een hoog aantal inwoners (meer dan 20.000 inwoners) en 50 respondenten voor de twee gebieden waar (vooralsnog) weinig inwoners te vinden zijn omdat dit eigenlijk bedrijventerreinen zijn.
+
+```{r }
+
+#kaart met gebieden 
+
+
+plot_25geb
+
+
+```
+
+Binnen deze gebieden is de target-respons per wijk naar ratio van de gebieden bepaald door de volgende berekening: 
+
+$$target.per.wijk = {inw.per.wijk \over inw.gebied} * 200 $$
+
+
+```{r }
+
+#overzicht inwoners , target en target per tranche
+
+steekproefkader_t1<- functie_respons(steekproefkader,
+                                     resp_t1_wijk22,
+                                     respons_t1, t1, t2)
+
+head(steekproefkader_t1)
+
+```
+
+Dit levert de volgende totale target op per wijk 
+
+```{r }
+
+#kaart met wijken 
+
+plot_wijk
+
+```
+
+### toevoegen respons tranche 1
+
+Vervolgens wordt de respons toegevoegd van tranche 1. Deze respons wordt uitgelezen als rechte telling uit de spss-file, ofwel het aantal respondenten per wijk
+
+```r
+
+data22_wijk22 <- haven :: read.sav("data consumentenenquete tranche 1.sav)
+
+resp_t1_wijk22 <- data22_wijk22 %>%
+  group_by( gbd_wijk_code ) %>%
+  summarise( respons_t1 = n() )
+
+```
+
+```{r }
+
+#overzicht respons pe wijk 
+
+head(resp_t1_wijk22)
+
+```
+
+Deze respons wordt  aan het steekproefkader toegevoegd middels een left_join. 
+Vervolgens wordt de target per wijk voor de volgende tranche geupdate aan de hand  van de tekorten en overschotten per wijk. Op dezelfde manier worden de daaropvolgende responses toegewvegdtranches 
+
+
+$$tekort.of.overschot.tranche1= respons1 - target.per.tranche$$
+
+
+$$target 2 = tekort.of.overschot.tranche 1 + target.per.tranche$$
+
+```r
+
+# voeg respons toe aan steekproefkader
+   .steekproefkader %>%
+    
+    left_join(respons_df, by=c("wijk_code"="gbd_wijk_code")) %>%
+  
+  # zet ontbrekende waardes op 0
+    
+    mutate(respons = replace_na(respons, 0)) %>%
+    
+  
+  # bepaal tekort en nieuwe target en steekproef toe
+    
+    mutate( tekort         = target_nieuw - respons,
+            target_nieuw2  = tekort + target_nieuw ,
+            steek_nieuw    = target_nieuw2 *7)%>%
+    
+    
+```
+
+### weging data en analyse
+
+*weging naar wijk*
+De data wordt eerst 'teruggewogen' naar het juiste aantal inwoners per wijk. Wijken waar oversampeld is krijgen een lager gewicht dan de wijken die ondersampled zijn. De volgende formule kan hiervoor gebruikt worden.
+
+
+
+$$wegingsfactor = {{respons.per.wijk / totale.respons}\over{inwoners.per.wijk/inwoners.amsterdam}}$$
+
+Vervolgens worden rechte tellingen per winkelgebied gemaakt van de vragen.
+
+1. Waar, of in welk winkelgebied, heeft u de laatste keer uw dagelijkse of wekelijkse boodschappen gedaan? Denk daarbij aan levensmiddelen en artikelen voor uw persoonlijke verzorging.
+
+18. Waar heeft u de laatste keer … gekocht   ?
+18.1 modeartikelen (kleiding, schoenen, juweliersartikelen)
+18.2 elektronica (o.a. tv's, audioapparatuur, computers, koelkasten, wasmachines)
+18.3 huishoudelijke artikelen (o.a. serviesgoed, keukengerei, textiel- en linnengoed)
+18.4 woninginrichting (meubelen, vloerbedekking, woningtextiel en verlichting)
+18.5 doe-het-zelfartikelen (klusmaterialen, gereedschap)
+18.6 planten en tuinartikelen
+18.7 Media-artikelen (o.a. boeken, dvd’s) en hobbyartikelen 
+18.8 sportartikelen 
+18.9 speelgoed
+
+Hiervoor moet met behulp van koppeltabellen
+- de enquetenummering omgezet worden naar officiele  winkelgebiednummers 
+- winkelgebieden buiten Amsterdam naar twee categorieeen herschrijven:  MRA en overig Nederland
+- Winkelgebieden moeten gekoppeld worden naar gebieden en stadsdelen
+
+Met de juiste koppelingen kan nu een rechte telling per vraag (ofwel productgroep) berekend worden:
+1. het aantal respondenten per stadseel per winkelgebied (en online, mra en overig) berekend
+2. het aantal respondenten per gebied per winkelgebied (en online, mra en overig) berekend
+
+```r
+
+#neem unieke kenmerk van respondent mee, stadsdeel en gebied van respondent, vraag 1 , vraag 18.1 tm 9)
+
+data22 <- haven :: read.sav("dataset_cons22.sav")[,c (respondent_id, stadsdeel_respondent, gebied_respondent, v1, v18_1:v18_9)]
+
+# maak een longformat van de productgroep vragen
+
+data22_long <- data22 %>%
+  pivot_longer(colls = c(v1, v18_1:v18_9)), names_to= productgroep, values_to=winkelgebied_enq
+
+# tabel winkelgebieden naar stadsdeel respondent
+
+tabel_sd <- data22 %>%
+  group_by( productgroep, stadsdeel_respondent ) %>%
+  summarise( aantal = n() ) %>%
+  
+  left_join(tabel_enqnummer_naar_winkelgebiedcode, by = winkelgebied_enq=winkelgebied_ois) %>%
+  left_join(tabel_winkelgebiedcode_naar_stadsdelen, by = winkelgebied_enq=winkelgebied_oisv)
+  
+# tabel winkelgebieden naar gebied25 respondent
+
+tabel_geb25 <- data22 %>%
+  group_by( productgroep, geb25_respondent ) %>%
+  summarise( aantal = n() ) %>%
+
+  left_join(tabel_enqnummer_naar_winkelgebiedcode, by = winkelgebied_enq=winkelgebied_ois) %>%
+  left_join(tabel_winkelgebiedcode_naar_gebieden25, by = winkelgebied_enq=winkelgebied_ois)
+
+
+```
+Op basis van deze rechte telling per winkelgebied worden de volgende aggregaties gemaakt
+- per productgroep, het aantal respondenten per aankoopstadsdeel (incl. online en buiten amsterdam) en herkomststadsdeel
+- per productgroep, het aantal respondenten per aankoopgebied (incl. online en buiten amsterdam) en herkomstgebied
+
+
+```r
+
+tabel_sd_DEF <- tabel_sd %>%
+  group_by( productgroep, stadsdeel_van, stadsdeel_aan ) %>%
+  summarise( aantal = n() )
+  
+tabel_geb_DEF <- tabel_geb %>%
+  group_by( productgroep, gebied_van, gebied_aan ) %>%
+  summarise( aantal = n() )
+  
+```
+
+De uitkomsten per herkomststadsdeel worden opgeteld om het totaal voor Amsterdam te berekenen.
+Hiervoor worden eerst twee wegingsfactoren toegevoegd:
+- weging naar productgroep
+- weging naar inkomen per stadsdeel
+
+*weging naar productgroep*
+Via de website https://www.retailinsiders.nl/branches/ is het mogelijk om per productgroep de omzet te bepalen en daarmee de verhouding die gebruikt wordt als weegfactor per productgroep
+
+*weging naar koopkracht per stadsdeeel of gebied*
+Via BBGA is het mogelijk om het relatieve inkomen per gebied  of stadsdeel als weegfactor toe te voegen  aan het stadsdeel. Op een vergelijkbare manier als bij de productgroepen wordt het aantal opnieuw gewogen. Deze methode wordt ook gebruikt om gewichten per gebied te bepalen
+
+```r
+bbga_inkomen <- read.xlsx("2022_BBGA_1207_dce82443c3.xlsx", sheet = 1)[, c(niveaunaam,
+                                                                           sd,	
+                                                                           sdnaam,	
+                                                                           gebiedcode22, 
+                                                                           gebiedcodenaam, 
+                                                                           jaar, 
+                                                                           IHHINK_GEM)]
+```
+
+Nu is de  data geschikt voor een kruistabel om de koopkrachtbinding te bepalen:
+
+```r
+
+koopkracht_ams <- tabel_sd_DEF_wg %>%
+  filter(stadsdeel_aan= 'Amsterdam')%>%
+  group_by(stadsdeel_aan, stadsdeel_van)%>%
+  summarise(aantal=n())%>%
+  mutate(aandeel=aantal/sum(aantal))
+
+koopgracht_sd <- tabel_sd_DEF_wg %>%
+  filter(stadsdeel_aan= 'Amsterdam')%>%
+  group_by(stadsdeel_aan, stadsdeel_van)%>%
+  summarise(aantal=n())%>%
+  group_by(stadsdeel_aan)%>%
+  mutate(aandeel=aantal/sum(aantal))
+
+```r
+ 
+
+
+                          
+                       
+
+
+
+
+
+
