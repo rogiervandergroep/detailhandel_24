@@ -2,7 +2,7 @@
 library(tidyverse)
 library(openxlsx)
 
-### inlezen werkbestand ---
+### inlezen werkbetand 
 
 load(file= "03 tussentijds/data_24_DEF.Rdata") # uit script 00 inlezen opschonen
 
@@ -12,18 +12,10 @@ sel_basis <- c("Respondent_ID", "weeg_ams", "weeg_ams_ink",
                "gbd_sdl_code", "gbd_sdl_naam", "weeg_sd", "weeg_sd_ink",
                "gbd_ggw_code", "gbd_ggw_naam", "weeg_geb", "weeg_geb_ink")
 
-
-pdg_code     <- pdg$code
-pdg_naam     <- pdg$naam
-pdg_anders   <- pdg$anders
-omzetcijfers <- pdg$omzetcijfers
-
-df_omzetcijfers <- tibble(pdg_code, pdg_naam, omzetcijfers)
-
 # omzetten data naar long format en toevoegen omzetcijfers         
 data24<-list()
 
-my_pivot_1    <- function (x, pcol){
+my_pivot_1 <- function (x, pcol){
   
   x |> 
     pivot_longer(
@@ -44,6 +36,7 @@ my_pivot_1    <- function (x, pcol){
     
   
 }
+
 my_pivot_2ndg <- function (x, pcol){
   
   x |>
@@ -101,12 +94,12 @@ my_pivot_2dg  <- function (x, pcol){
 data24$ndg <- bind_rows( 
   
   # in winkelgebieden
-  data_def$data_24_def |>  
+  data_24_weeg |>  
     select (any_of(c(sel_basis, pdg_code)))|>
     my_pivot_1(pcol=any_of(pdg_code)),
   
   # overig
-  data_def$data_24_def |>
+  data_24_weeg |>
     select (any_of(c(sel_basis, pdg_anders)))|>
     my_pivot_2ndg(pcol=any_of(pdg_anders))) |>
   
@@ -115,12 +108,12 @@ data24$ndg <- bind_rows(
 
 data24$dg <- bind_rows( 
   
-  data_def$data_24_def |>
+  data_24_weeg |>
     select (any_of(c(sel_basis, "V1_nw")))|>
     my_pivot_1(pcol= any_of("V1_nw")),
   
   
-  data_def$data_24_def |>
+  data_24_weeg |>
     select (any_of(c(sel_basis, "V1_nw_Codes")))|>
     my_pivot_2dg(pcol= any_of("V1_nw_Codes")))  |>
   
@@ -199,6 +192,8 @@ freq_kkb_24$GEB <- freq_kkb_24$GEB |>
 freq_kkb_24$SD <- freq_kkb_24$SD |>
   left_join(winkelgebieden24_def, by= c("winkelgebied_code", "winkelgebied_naam"))
 
+
+#### #### ##### #### 
 ### frequenties met procenten ---
 my_summary <- function(x){
   
@@ -226,154 +221,86 @@ my_mutate <- function(x){
     )
 }
 
-
-
-
-### functie om frequenties per gebied te bepalen ---
-
-# toevoegen KSO_indeling
-recreatief  <- c( "modeartikelen", "huishoudelijke artikelen", "sport en spel", "media en vrijetijd")
-doelgericht <- c( "elektronica", "doe het zelf", "woninginrichting", "planten en bloemen") 
-
-my_frequencies<- function(x, gebied_var){
-  
-  bind_rows(
-    
-    # per PRODUCTGROEP
-    x |>
-      group_by(pdg_naam, across(all_of({{gebied_var}}))) |>
-      my_summary() |>
-      #group_by(pdg_naam) |>
-      my_mutate(),
-    
-    # NDG RECREATIEF
-    x |>
-      filter(pdg_naam %in% recreatief) |>
-      group_by(across(all_of({{gebied_var}}))) |>
-      my_summary()|>
-      my_mutate()|>
-      add_column(pdg_naam = 'NDG recreatief'),
-    
-    # NDG DOELGERICHT
-    x |>
-      filter(pdg_naam %in% doelgericht) |>
-      group_by(across(all_of({{gebied_var}}))) |>
-      my_summary()|>
-      my_mutate()|>
-      add_column(pdg_naam = 'NDG doelgericht'),
-    
-    # NDG TOTAAL
-    x |>
-      filter(pdg_naam != 'dagelijkse producten') |>
-      group_by(across(all_of({{gebied_var}}))) |>
-      my_summary()|>
-      my_mutate()|>
-      add_column(pdg_naam = 'NDG totaal')
-  )
-  
-  
-}
-
-
 # frequenties totaal amsterdam naar afzet_stadsdeel
-freq_kkb_24$AMS_sd <- my_frequencies (freq_kkb_24$AMS, "afzet_stadsdeel_code")
+freq_kkb_24$AMS_sd <- bind_rows(
+  
+  freq_kkb_24$AMS |>
+    group_by(pdg_naam, afzet_stadsdeel_code  ) |>
+    my_summary() |>
+    group_by(pdg_naam) |>
+    my_mutate(),
+  
+  freq_kkb_24$AMS |>
+    filter(pdg_naam != 'dagelijkse producten') |>
+    group_by(afzet_stadsdeel_code  ) |>
+    my_summary() |>
+    my_mutate() |>
+    add_column(pdg_naam = 'NDG_totaal')
+)
+  
+
+
+
 
 # frequenties totaal amsterdam naar afzet_gebied
-freq_kkb_24$AMS_geb <- my_frequencies (freq_kkb_24$AMS, "afzet_gebied_code")
+freq_kkb_24$AMS_geb <- bind_rows(
+  
+  # per pdg_naam
+  freq_kkb_24$AMS |>
+    group_by(pdg_naam, afzet_gebied_code  ) |>
+    my_summary() |>
+    group_by(pdg_naam) |>
+    my_mutate(),
+  
+  freq_kkb_24$AMS |>
+    filter(pdg_naam != 'dagelijkse producten') |>
+    group_by(afzet_gebied_code) |>
+    my_summary()|>
+    my_mutate()|>
+    add_column(pdg_naam = 'NDG_totaal')
+) 
+  
+  
+  
 
 # frequenties van herkomstgebied naar afzetgebied
-freq_kkb_24$GEB_geb <- my_frequencies (freq_kkb_24$GEB, 
-                                       c("gbd_ggw_code", "gbd_ggw_naam", "afzet_gebied_code"))
+freq_kkb_24$GEB_geb <- bind_rows (
+  
+  freq_kkb_24$GEB |>
+    group_by(pdg_naam, gbd_ggw_code, gbd_ggw_naam, afzet_gebied_code  ) |>
+    my_summary()|>
+    group_by(pdg_naam, gbd_ggw_code, gbd_ggw_naam) |>
+    my_mutate(),
+  
+ freq_kkb_24$GEB |>
+    filter(pdg_naam != 'dagelijkse producten') |>
+    group_by( gbd_ggw_code, gbd_ggw_naam, afzet_gebied_code  ) |>
+    my_summary()|>
+    group_by(gbd_ggw_code, gbd_ggw_naam) |>
+    my_mutate()|>
+    add_column(pdg_naam = 'NDG_totaal')
+)
+
 
 # frequenties van herkomstsd naar afzetsd
-freq_kkb_24$SD_sd <- my_frequencies (freq_kkb_24$SD, 
-                                     c("gbd_sdl_code", "gbd_sdl_naam", "afzet_stadsdeel_code"))
-
-##################################################
-### toevloeiing per stadsdeel en gebied per productgroep ---
-##################################################
-
-# per stadsdeel -
-freq_kkb_24$SD <- freq_kkb_24$SD |>
-  mutate(kso_doel=case_when(
-    pdg_naam == 'dagelijkse producten' ~ 'dagelijkse producten',
-    pdg_naam %in% doelgericht ~ 'doelgericht',
-    pdg_naam %in% recreatief  ~ 'recreatief'))
-
-# per gebied
-freq_kkb_24$GEB <- freq_kkb_24$GEB|>
-  mutate(kso_doel=case_when(
-    pdg_naam == 'dagelijkse producten' ~ 'dagelijkse producten',
-    pdg_naam %in% doelgericht ~ 'doelgericht',
-    pdg_naam %in% recreatief  ~ 'recreatief'))
-  
-
-### per stadsdeel ---
-freq_kkb_24$SD_toevloeiing_abs <- bind_rows(
+freq_kkb_24$SD_sd <- bind_rows (
   
   freq_kkb_24$SD |>
-    group_by(gbd_sdl_naam, afzet_stadsdeel_code, pdg_naam, kso_doel) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum)),
+    group_by(pdg_naam, gbd_sdl_code, gbd_sdl_naam, afzet_stadsdeel_code  ) |>
+    my_summary()|>
+    group_by(pdg_naam, gbd_sdl_code, gbd_sdl_naam) |>
+    my_mutate(),
   
-  # per KSO_doel - 
   freq_kkb_24$SD |>
-    filter (pdg_naam != 'dagelijkse producten') |>
-    group_by(gbd_sdl_naam, afzet_stadsdeel_code, kso_doel) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum))|>
-    mutate(pdg_naam = kso_doel),
-  
-  # totaal NDG
-  freq_kkb_24$SD |>
-    filter ( pdg_naam != 'dagelijkse producten') |>
-    group_by(gbd_sdl_naam, afzet_stadsdeel_code) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum))|>
-    mutate(pdg_naam = "totaal niet dagelijkse producten")
-) |>
-  
-  select(-kso_doel)
+    filter(pdg_naam != 'dagelijkse producten') |>
+    group_by(gbd_sdl_code, gbd_sdl_naam, afzet_stadsdeel_code  ) |>
+    my_summary()|>
+    group_by(gbd_sdl_code, gbd_sdl_naam) |>
+    my_mutate()|>
+    add_column(pdg_naam = 'NDG_totaal')
+)
 
-freq_kkb_24$SD_toevloeiing_rel <- freq_kkb_24$SD_toevloeiing_abs |>
-  
-  group_by(afzet_stadsdeel_code, pdg_naam) |>
-  
-  mutate(across(c(aantal: aantal_gw_omz_ink), ~ (round(.x/sum(.x)*100))))
-
-### ---
-
-### per gebied ---
-freq_kkb_24$GEB_toevloeiing_abs <- bind_rows(
-  
-  freq_kkb_24$GEB |>
-    group_by(gbd_ggw_naam, afzet_gebied_code, pdg_naam, kso_doel) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum)),
-  
-  # per KSO_doel - 
-  freq_kkb_24$GEB |>
-    filter (pdg_naam != 'dagelijkse producten') |>
-    group_by(gbd_ggw_naam, afzet_gebied_code, kso_doel) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum))|>
-    mutate(pdg_naam = kso_doel),
-  
-  # totaal NDG
-  freq_kkb_24$GEB |>
-    filter ( pdg_naam != 'dagelijkse producten') |>
-    group_by(gbd_ggw_naam, afzet_gebied_code) |>
-    summarise(across(c(aantal: aantal_gw_omz_ink), sum))|>
-    mutate(pdg_naam = "totaal niet dagelijkse producten")
-) |>
-  
-  select(-kso_doel)
-
-freq_kkb_24$GEB_toevloeiing_rel <- freq_kkb_24$GEB_toevloeiing_abs |>
-  
-  group_by(afzet_gebied_code, pdg_naam) |>
-  
-  mutate(across(c(aantal: aantal_gw_omz_ink), ~ (round(.x/sum(.x)*100))))
-
-
-
-
-write_rds(freq_kkb_24, "03 tussentijds/freq_kkb_24.rds")
+saveRDS(    freq_kkb_24, "03 tussentijds/freq_kkb_24.rds")
 
 # is afgerond   
 write.xlsx(freq_kkb_24, "04 output tabellen/tabel_kkb_24.xlsx", overwrite = T, withFilter=T )

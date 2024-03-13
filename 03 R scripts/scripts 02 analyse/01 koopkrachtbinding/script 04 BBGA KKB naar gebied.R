@@ -2,6 +2,9 @@
 library(tidyverse)
 library(openxlsx)
 
+source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
+
+
 ### koopkrachtbinding toevoegen aan winkelgebieden ---
 
 source("03 R scripts/scripts 02 analyse/00 02 script gebiedsindelingen BBGA.R")
@@ -133,6 +136,9 @@ gebieden_df <-gebieden_sf |>
   select(code, stadsdeelCode, stadsdeelNaam)|>
   set_names(c("code", "herkomst_sd_code", "herkomst_sd_naam"))
 
+
+
+
 my_join <- function(x){
   
   x |>
@@ -147,7 +153,7 @@ my_join <- function(x){
     
     mutate(
       value_cut = os_cut(
-        value, c(0, 2, 5, 7, 10, 15, 20,  40,  70, 100),    suffix = '%')
+        value, c(0,2,  5,  10,  15, 20, 30, 40, Inf),    suffix = '%')
       ) |>
     
     left_join(
@@ -157,8 +163,85 @@ my_join <- function(x){
     
   }
 
+
+### alle data
 kkb_geb_24_sf <- kkb_geb_24 |>
   map_df(\(x) my_join(x))
+
+### overzicht binding per gebied
+kkb_gb_24_sam_sf <- kkb_gb_24_sam |>
+  
+  left_join(gebieden_sf, by = c("spatial_code"="code")) |>
+  filter(measure %in% c('BHNDG_BINDGEB_P','BHDG_BINDGEB_P' )) |>
+  
+  mutate(measure = case_when(
+    measure == 'BHNDG_BINDGEB_P' ~ 'binding niet-dagelijkse producten',
+    measure == 'BHDG_BINDGEB_P'  ~ 'binding dagelijkse boodschappen'))|>
+  
+  mutate(value_cut = os_cut(value, c(0, 5,  10, 15, 20, 30, 40, 60, 80, 100), suffix = '%')) |>
+  st_as_sf() 
+  
+
+
+
+  
+
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+geom.text.size = 5
+theme.size = (14/5) * geom.text.size
+
+
+font <- "Amsterdam Sans"
+
+# figuur overzicht dg
+
+plot_gebied <- kkb_gb_24_sam_sf |>
+  
+  filter(
+    spatial_code != 'GT21',
+    spatial_code != 'GF06') |>
+  
+  ggplot()+
+  
+  geom_sf(
+    data = gebieden_sf, fill= "#FFFFFF")+
+  geom_sf(
+    aes(fill = value_cut))+
+
+  
+  geom_sf_text(
+    aes(
+      label  = if_else(value > 5, as.character(round(value)),""),
+      colour = if_else(value < 50, "#000000", "#FFFFFF")),
+    size = 3.5,
+    family = font)+
+  
+  labs(title=NULL, x=NULL, y = NULL) +
+  theme_os()+ 
+  scale_fill_manual(name= NULL, values = rev(palettes_list$blauw))  +
+  scale_color_manual(name= NULL, values = c("#000000", "#FFFFFF"))  +
+  guides(fill = guide_legend(ncol =1, reverse = T)) +
+  theme(
+    strip.text = element_text(size = 12, family = font),
+    legend.position = "none",
+    axis.line = element_blank(), 
+    axis.text = element_blank(), 
+    axis.ticks = element_blank(), 
+    axis.title = element_blank(), 
+    panel.background = element_blank(), 
+    panel.grid = element_blank(), 
+    panel.spacing = unit(0, "lines"), 
+    plot.background = element_blank())+
+  facet_wrap( ~ measure)
+ggsave("04 output tabellen/fig_binding_geb.png", width = 7, height = 3)
+
+
+
+
+
+
 
 
 # koopkrachtbinding per gebied binnen een stadsdeel
@@ -169,12 +252,22 @@ my_plot<- function (x , sd, prodgroep) {
     filter(herkomst_sd_code == sd,
            name == prodgroep) |>
     ggplot()+
-    geom_sf(aes(fill = value_cut))+
+    
+    geom_sf(
+      aes(fill = value_cut))+
+    
+    geom_sf_text(
+      aes(label = if_else(
+        value > 1 ,as.character(round(value)),"")), 
+        family= font, size= 3)+
+    
     labs(title=NULL, x=NULL, y = NULL) +
     theme_os()+ 
     scale_fill_manual(name= NULL, values = rev(palettes_list$blauw))  +
     guides(fill = guide_legend(ncol =1, reverse = T)) +
     theme(
+      strip.text = element_text(size = 11),
+      text = element_text(family = font),
       legend.position = "right",
       axis.line = element_blank(), 
       axis.text = element_blank(), 
@@ -192,12 +285,18 @@ my_plot<- function (x , sd, prodgroep) {
 }
 
 
-plot_centrum_dg <- 
+plot_centrum_ndg <- kkb_geb_24_sf |>
+  my_plot ("A", "NDG totaal")
+
+plot_centrum_ndg
 
 
 
+plot_zo_ndg <- kkb_geb_24_sf |>
+  my_plot ("T", "NDG totaal")
 
-ggsave("04 output tabellen/vvvv.png", width = 7, height = 4)
+plot_zo_ndg
+
 
 
 

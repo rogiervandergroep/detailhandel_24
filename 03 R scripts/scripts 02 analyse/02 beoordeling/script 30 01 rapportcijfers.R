@@ -415,6 +415,18 @@ tabel_figuur<-gem_totaal|>
 
 write.xlsx(tabel_figuur, "04 output tabellen/tabel_rapportcijfers24.xlsx", withFilter=T, overwrite=T)
 
+tabel_figuur<-gem_totaal|>  
+  filter(aantal > 19) |>
+  
+  filter (winkelgebied_naam != 'geen winkelstraat/gebied',
+          winkelgebied_naam != 'overig') |>
+  left_join(wg_sd_kl, by= "winkelgebied_code") |>
+  relocate (winkelgebied_code, winkelgebied_naam,winkelgebied_oiscode, winkelgebied_oisnaam)
+
+write.xlsx(tabel_figuur, "04 output tabellen/tabel_rapportcijfers24_DG_NDG.xlsx", withFilter=T, overwrite=T)
+
+
+
 tabel_figuur_lng<-gem_totaal|>  
   filter(aantal > 19,
          productgroep == 'winkelgebied voor dagelijkse boodschappen') |>

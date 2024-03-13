@@ -33,14 +33,14 @@ data_v19 <-  data_def|>
 my_summary<- function (x, groupvars=NULL) {
   
   x |>
-    group_by(monitor, v19_naam, {{groupvars}}) |>
+    group_by(monitor, v19_naam,  {{groupvars}}) |>
     
     summarise(
       aantal     = n(),
       aantal_gew = sum(weeg_ams, na.rm = T)
     ) |>
     
-    group_by(monitor, {{groupvars}}) |>
+    group_by(monitor, {{groupvars}} ) |>
     
     mutate(
       aandeel     = round(aantal/sum(aantal, na.rm = T)*100,2),
@@ -57,26 +57,106 @@ v19_levels <- c(
   "nee, nooit",
   "weet ik niet, geen antwoord")
 
-sd_levels<- c(
-  "Centrum",   "Westpoort",   "West",   "Nieuw-West", 
-  "Zuid", "Oost", "Noord", "Weesp", "Zuidoost", 
-  "Amsterdam totaal", "Amsterdam")
+sd_levels<- c("Centrum","Westpoort", "West","Nieuw-West","Zuid", "Oost", "Noord", "Weesp", "Zuidoost")
 
-ink_levels <- c("inkomen laag", "inkomen midden", "inkomen hoog", "inkomen onbekend", "Amsterdam")
+ink_levels <- c("inkomen laag", "inkomen midden", "inkomen hoog", "inkomen onbekend")
+
+lft_levels <- c("35 jaar of jonger", "35 jaar tot en met 55 jaar", "55 jaar of ouder", "onbekend")
+
+my_table <- function (x, achtergrondvar, achtergrondvar_naam){
+  
+  x |>
+    
+    map(\(x) filter(x, !is.na({{achtergrondvar}}))) |>
+    map_df(\(x) my_summary(x, {{achtergrondvar}})) |>
+    rename(item = {{achtergrondvar}} ) |>
+    add_column(onderwerp = achtergrondvar_naam)
+  
+}
+
 
 ## Amsterdam totaal ---
-tabel_v19_ams  <- data_v19 |>
-  map_df (\(x) my_summary(x)) |>
-  mutate(v19_naam     = factor(v19_naam,levels = v19_levels))
+tabel_v19  <- bind_rows(
+  
+  data_v19 |>
+    my_table(gbd_sdl_naam, 'stadsdeel')|>
+    mutate(item=factor(item,levels= sd_levels)),
+  
+  data_v19 |>
+    my_table(geslacht, 'geslacht')|>
+    mutate(item=factor(item,levels= c("vrouw", "man"))),
+  
+  
+  data_v19 |>
+    my_table(leeftijd_klas, 'leeftijd')|>
+    mutate(item=factor(item,levels= lft_levels)),
+  
+  data_v19 |>
+    my_table(inkomen_klas, 'inkomen')|>
+    mutate(item=factor(item,levels= ink_levels)),
+  
+  data_v19 |>
+    map_df(\(x) my_summary(x)) |>
+    mutate(v19_naam = factor(v19_naam,levels = v19_levels))|>
+    add_column(onderwerp = 'Amsterdam', 
+               item ='Amsterdam')|>
+    mutate(item=factor(item)))|>
+  mutate(v19_naam = factor(v19_naam,levels = v19_levels))
+  
 
 
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+font <- "Amsterdam Sans"
+
+blauw_pal <- c("#004699", "#3858a4", "#566bb0", "#707ebb", "#8992c6", "#a1a7d2", "#b8bcdd", "#d0d2e8", "#e7e8f4")
+
+hcl <- farver::decode_colour(blauw_pal, "rgb", "hcl")
+
+label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
+  
+  
+  
+  theme <- ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = ggplot2::element_text(family = font, size = 12),
+      axis.text = ggplot2::element_text(family = font, size = 12),
+      plot.caption = ggplot2::element_text(family = font, size = 12),
+      axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+      plot.subtitle = ggplot2::element_text(family = font, size = 12),
+      legend.text = ggplot2::element_text(family = font, size = 12),
+      plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      legend.title=element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position=legend_position,
+      panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+      strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+    ) 
+  
+  if (orientation %in% c("vertical", "v")){
+    theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+  } else if (orientation %in% c("horizontal", "h")){
+    theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+  }
+  
+}
+
+  
+  
 
 
 
 
 
 # fig dagelijks niet dagelijks amsterdam
-tabel_v19_ams|>
+tabel_v19|>
+  filter(onderwerp == 'Amsterdam')|>
   
   ggplot(aes(
     y = fct_rev(monitor),
@@ -90,12 +170,51 @@ tabel_v19_ams|>
             family=font, lineheight=.8)+
   
   labs(title=NULL, x=NULL, y = NULL) +
-  theme_os3()+ 
-  scale_fill_manual(name= NULL, values = palettes_list$blauw[c(9, 6, 5,4,3,2)])  +
-  guides(fill = guide_legend(reverse = T)) 
-ggsave("04 output tabellen/fig10_wink_plezier.png", width = 7, height = 3)
+  theme_os2()+ 
+  scale_fill_manual(name= NULL, values = palettes_list$blauw[c(9,7,6,5,3,1)])  +
+  guides(fill = guide_legend(reverse = T, nrow= 3)) 
 
-# winkelen voor het plezier naar achtergrondgroep
+ggsave("04 output tabellen/fig10_wink_plezier.png", width = 8, height = 3)
+
+
+
+
+tabel_v19|>
+  filter(monitor == 'monitor 2024',
+         onderwerp != 'Amsterdam',
+         item != 'onbekend',
+         item != 'inkomen onbekend')|>
+  
+  ggplot(aes(
+    y = fct_rev(item),
+    fill = fct_rev(v19_naam), 
+    x = aandeel_gew,
+    label = aandeel_gew))+
+  
+  geom_col()+
+  geom_text(
+    aes(
+      label = if_else(aandeel_gew > 10,as.character(round(aandeel_gew)),""),
+      color = fct_rev(v19_naam)),
+    position = position_stack(vjust =0.5),
+    family=font, lineheight=.8)+
+  
+  labs(title=NULL, x=NULL, y = NULL) +
+  theme_os2()+ 
+  
+  scale_fill_manual(
+    name= NULL, values = blauw_pal[c(9,7,6,5,3,1)])+
+  
+  scale_color_manual(
+    name= NULL, values = label_col[c(9,7,6,5,3,1)])+
+  
+  guides(
+    fill = guide_legend(reverse = T, nrow= 3),
+    colour = "none") +
+  facet_wrap(~ onderwerp, scales = 'free_y')
+
+
+ggsave("04 output tabellen/fig10_wink_plezier_sd.png", width = 8, height = 5)
 
 
 
@@ -133,6 +252,43 @@ redenen24<-data_v19$data_24_def |>
 
 my_reden_function<- function (x, achtergrondvar, achtergrondlev) {
   
+  grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+  grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+  
+  font <- "Amsterdam Sans"
+  
+  theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
+    
+    
+    
+    theme <- ggplot2::theme_bw() +
+      ggplot2::theme(
+        text = ggplot2::element_text(family = font, size = 12),
+        axis.text = ggplot2::element_text(family = font, size = 12),
+        plot.caption = ggplot2::element_text(family = font, size = 12),
+        axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+        plot.subtitle = ggplot2::element_text(family = font, size = 12),
+        legend.text = ggplot2::element_text(family = font, size = 12),
+        plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+        panel.grid.minor = ggplot2::element_blank(),
+        strip.background = ggplot2::element_blank(),
+        legend.title=element_blank(),
+        axis.ticks.y = element_blank(),
+        axis.ticks.x = element_blank(),
+        legend.position=legend_position,
+        panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+        strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+      ) 
+    
+    if (orientation %in% c("vertical", "v")){
+      theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+    } else if (orientation %in% c("horizontal", "h")){
+      theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+    }
+    
+  }
+  
+  
   tabel <- bind_rows(
     
     # totaal
@@ -166,14 +322,15 @@ my_reden_function<- function (x, achtergrondvar, achtergrondlev) {
     
     ggplot(aes(
       y = fct_reorder(v24_labels, aandeel), x = aandeel))+
-    geom_col(fill= palettes_list$wild[3])+
+    geom_col(fill= blauw_pal[2])+
     geom_text(aes(label = if_else(aandeel > 10,as.character(round(aandeel)),"")), 
               position = position_stack(vjust =0.5),
+              color = 'white',
               family=font, lineheight=.8)+
     
     labs(title=NULL, x=NULL, y = NULL) +
     theme_os2()+ 
-    scale_fill_manual(name= NULL, values = palettes_list$wild[c(9,5,4,3)])  +
+    scale_fill_manual(name= NULL, values = blauw_pal[2])  +
     guides(fill = guide_legend(nrow =1, reverse = T)) +
     facet_wrap(vars({{achtergrondvar}}), nrow=1)
   
@@ -189,17 +346,11 @@ leefkl_levels <- c("35 jaar of jonger", "35 jaar tot en met 55 jaar", "55 jaar o
 
 
 
-  
-redenen24 |>
-  filter(opleiding_klas!= 'opleiding onbekend')|>
-  my_reden_function(opleiding_klas, opl_levels)+
-  theme(axis.text.x = ggplot2::element_text (family = font, size = 10, angle = 0, vjust = 1, hjust=1))
-
 redenen24 |>
   filter(geslacht!= 'onbekend')|>
   my_reden_function(geslacht, gesl_levels)+
   theme(axis.text.x = ggplot2::element_text (family = font, size = 10, angle = 0, vjust = 1, hjust=1))
-ggsave("04 output tabellen/fig12_wink_plezier.png", width = 7, height = 3)
+ggsave("04 output tabellen/fig12_wink_plezier.png", width = 8, height = 3)
 
 
 
