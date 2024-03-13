@@ -55,6 +55,6 @@ plot_wijk <- kaart_wijken |>
 
 plot_wijk
 
-save(plot_25geb, plot_wijk, file="03 R scripts/scripts Markdowns/plots.Rdata")
+save(plot_25geb, plot_wijk, file="docs/plots.Rdata")
 
 

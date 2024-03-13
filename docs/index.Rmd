@@ -28,7 +28,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.height=6, 
                       fig.width=14)
 
-load("../04 output tabellen/plots.Rdata")
+load("plots.Rdata")
 
 ```
 
