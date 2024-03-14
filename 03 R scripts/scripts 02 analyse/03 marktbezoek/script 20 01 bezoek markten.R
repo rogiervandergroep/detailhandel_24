@@ -132,21 +132,67 @@ kosten <- data_markt_def |>
     v15_schoon != 'bezoekt markt, markt onbekend')
 
 
-kosten|>
+
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+font <- "Amsterdam Sans"
+
+blauw_pal <- c("#004699", "#3858a4", "#566bb0", "#707ebb", "#8992c6", "#a1a7d2", "#b8bcdd", "#d0d2e8", "#e7e8f4")
+
+hcl <- farver::decode_colour(blauw_pal, "rgb", "hcl")
+
+label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
   
+  
+  
+  theme <- ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = ggplot2::element_text(family = font, size = 12),
+      axis.text = ggplot2::element_text(family = font, size = 12),
+      plot.caption = ggplot2::element_text(family = font, size = 12),
+      axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+      plot.subtitle = ggplot2::element_text(family = font, size = 12),
+      legend.text = ggplot2::element_text(family = font, size = 12),
+      plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      legend.title=element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position=legend_position,
+      panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+      strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+    ) 
+  
+  if (orientation %in% c("vertical", "v")){
+    theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+  } else if (orientation %in% c("horizontal", "h")){
+    theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+  }
+  
+}
+
+
+
+
+kosten|>
   filter(monitor == 'monitor 2024')|>
   
   ggplot(aes(
     y = fct_reorder(v15_schoon, uitgaven),
     x = uitgaven))+
   
-  geom_col(fill=palettes_list$wild[3])+
-  geom_text(aes(label = glue::glue("€ {as.character(round(uitgaven))},-")), 
-            position = position_stack(vjust =0.5),
-            family=font, lineheight=.8)+
+  geom_col(fill=blauw_pal[2])+
+  geom_text(aes(
+    label = glue::glue("€ {as.character(round(uitgaven))},-")), 
+    position = position_stack(vjust = 0.5),
+    family = font, color = 'white', lineheight = .8)+
   
   labs(title=NULL, x=NULL, y = NULL) +
-  theme_os3()+ 
+  theme_os2()+ 
   guides(fill = guide_legend(reverse = T)) 
 ggsave("04 output tabellen/fig12_kosten_markt.png", width = 7, height = 5)
       

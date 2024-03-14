@@ -1,11 +1,48 @@
 
 ### figuren ---
 
-grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
-font <- "Corbel"
 
-# kleurenschema's : 
-# https://os-amsterdam.gitlab.io/datavisualisatie-onderzoek-en-statistiek/
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+font <- "Amsterdam Sans"
+
+blauw_pal <- c("#004699", "#3858a4", "#566bb0", "#707ebb", "#8992c6", "#a1a7d2", "#b8bcdd", "#d0d2e8", "#e7e8f4")
+
+hcl <- farver::decode_colour(blauw_pal, "rgb", "hcl")
+
+label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
+  
+  
+  
+  theme <- ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = ggplot2::element_text(family = font, size = 12),
+      axis.text = ggplot2::element_text(family = font, size = 12),
+      plot.caption = ggplot2::element_text(family = font, size = 12),
+      axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+      plot.subtitle = ggplot2::element_text(family = font, size = 12),
+      legend.text = ggplot2::element_text(family = font, size = 12),
+      plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      legend.title=element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position=legend_position,
+      panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+      strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+    ) 
+  
+  if (orientation %in% c("vertical", "v")){
+    theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+  } else if (orientation %in% c("horizontal", "h")){
+    theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+  }
+  
+}
 
 source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
 
@@ -15,12 +52,20 @@ load("03 tussentijds/tabellen_markten_def.RData")
 
 # frequentie ams
 tabel_list_marktfreq$tab_v1_ams|>
-  ggplot(aes(x= aandeel, y= fct_rev(monitor), fill= fct_rev(v13) ))+
+  ggplot(aes(x = aandeel, y = fct_rev(monitor), fill = fct_rev(v13) ))+
   geom_col()+
-  labs(title=NULL, x=NULL, y = NULL) +
-  theme_os()+ 
-  scale_fill_manual(name= NULL, values = palettes_list$blauw[c(9, 8, 7, 6,4,3,1)]) +
-  guides(fill = guide_legend(reverse = T, ncol=2))
+  geom_text(
+    aes(
+      label = if_else(aandeel_gew > 5,as.character(round(aandeel_gew)),""),
+      color = fct_rev(v13)), 
+     position = position_stack(vjust =0.5),
+     family=font, lineheight=.8)+
+  
+  labs(title = NULL, x = NULL, y = NULL) +
+  theme_os2()+ 
+  scale_fill_manual(name= NULL, values  = blauw_pal[c(9, 8, 7, 6,4,3,1)]) +
+  scale_color_manual(name= NULL, values = label_col[c(9, 8, 7, 6,4,3,1)]) +
+  guides(fill = guide_legend(reverse = T, ncol=2), color = 'none')
 ggsave("04 output tabellen/fig1_freqmarktbez_ams.png", width= 7, height = 4)
 
 # frequentie per sd
@@ -31,10 +76,17 @@ tabel_list_marktfreq$tab_v1_sd|>
     !is.na(gbd_sdl_naam))|>
   ggplot(aes(x= aandeel_gew, y= fct_rev(gbd_sdl_naam), fill= fct_rev(v13) ))+
   geom_col()+
+  geom_text(
+    aes(
+      label = if_else(aandeel_gew > 5,as.character(round(aandeel_gew)),""),
+      color = fct_rev(v13)), 
+    position = position_stack(vjust =0.5),
+    family=font, lineheight=.8)+
   labs(title=NULL, x=NULL, y = NULL) +
   theme_os()+ 
-  scale_fill_manual(name= NULL, values = palettes_list$blauw[c(9, 8, 7, 6,4,3,1)])+
-  guides(fill = guide_legend(reverse = T, ncol=2))
+  scale_fill_manual(name= NULL, values  = blauw_pal[c(9, 8, 7, 6,4,3,1)]) +
+  scale_color_manual(name= NULL, values = label_col[c(9, 8, 7, 6,4,3,1)]) +
+  guides(fill = guide_legend(reverse = T, ncol=2), color = 'none')
 ggsave("04 output tabellen/fig2_freqmarktbez_sd.png", width= 7, height = 4)
 
 
@@ -120,8 +172,8 @@ tabel_list_marktnaam$tab_v1_ams|>
              fill=fct_rev(monitor)))+
   geom_col(position = "dodge")+
   labs(title=NULL, x=NULL, y = NULL) +
-  theme_os()+ 
-  scale_fill_manual(name= NULL, values = wild_pal) +
+  theme_os2()+ 
+  scale_fill_manual(name= NULL, values = blauw_pal[c(2,5,8)]) +
   guides(fill = guide_legend(nrow = 1, reverse = T))
 ggsave("04 output tabellen/fig2_marktbez_ams.png", width= 7, height = 5)
 
@@ -145,7 +197,7 @@ tabel_list_marktnaam$tab_v1_sd |>
   geom_col(fill= wild_pal[2], position="dodge")+
   labs(title=NULL, x=NULL, y = NULL) +
   theme_os()+ 
-  scale_fill_manual(name= NULL, values = wild_pal) +
+  scale_fill_manual(name= NULL, values = blauw_pal[c(2,5,8)]) +
   guides(fill = guide_legend(reverse = T, ncol=2))+
   facet_wrap(~gbd_sdl_naam, scales = 'free_y', ncol= 2)
 ggsave("04 output tabellen/fig2_marktbez_sd.png", width= 6, height = 8)
@@ -186,7 +238,7 @@ my_plot_sd_ink  <- function (x) {
     geom_col(position="dodge" )+
     labs(title = NULL, x=NULL, y = NULL) +
     theme_os()+ 
-    scale_fill_manual(name = NULL , values = wild_pal)  +
+    scale_fill_manual(name= NULL, values = blauw_pal[c(7,4,2,9)]) +
     guides(fill = guide_legend(nrow =2, reverse = T)) +
     theme()+
     facet_wrap(~ gbd_sdl_naam, scale= 'free_y', ncol=2)

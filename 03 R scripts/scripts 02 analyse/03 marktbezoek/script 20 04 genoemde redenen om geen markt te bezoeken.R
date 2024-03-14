@@ -25,6 +25,17 @@ select(all_of(achtergrondvar), v14_nw1, v14_nw2, v14_nw3, weeg_ams)|>
   pivot_longer(cols = c(v14_nw1, v14_nw2, v14_nw3) ) 
 
 
+
+
+opl_levels    <- c("praktisch opgeleid", "middelbaar opgeleid", "theoretisch opgeleid","Amsterdam")
+gesl_levels   <- c("vrouw", "man", "Amsterdam")
+leefkl_levels <- c("35 jaar of jonger", "35 jaar tot en met 55 jaar", "55 jaar of ouder", "leeftijd onbekend", "Amsterdam")
+ink_levels    <- c("inkomen laag", "inkomen midden", "inkomen hoog", "onbekend", "Amsterdam")
+sd_levels     <- c("Centrum","Westpoort","West" , "Nieuw-West","Zuid" ,"Oost" , "Noord","Weesp",  "Zuidoost" ,  "Amsterdam", NA )
+
+
+
+
 my_geen_reden_function<- function (x, achtergrondvar, achtergrondlev) {
   
   tabel <- bind_rows(
@@ -56,31 +67,46 @@ my_geen_reden_function<- function (x, achtergrondvar, achtergrondlev) {
 
 }
 
-my_figure <- function (x, achtergrondvar) {
+
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+font <- "Amsterdam Sans"
+
+blauw_pal <- c("#004699", "#3858a4", "#566bb0", "#707ebb", "#8992c6", "#a1a7d2", "#b8bcdd", "#d0d2e8", "#e7e8f4")
+
+hcl <- farver::decode_colour(blauw_pal, "rgb", "hcl")
+
+label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
   
-  x |>
-    filter(
-      aandeel_gew > 4,
-      value != "weet niet",
-      value != "bang voor besmetting") |>
-    
-    mutate(value = case_when(
-      value == 'combinatie van winkels in deze buurt en een oninteressante markt' ~ 'genoeg winkels en oninteressante markt in buurt',
-      TRUE ~value)) |>
   
-    ggplot(aes(
-      y = fct_relevel(fct_reorder(value, aandeel_gew), "anders"), x = aandeel_gew))+
-    geom_col(fill= palettes_list$wild[3])+
-    geom_text(aes(label = if_else(aandeel_gew > 6,as.character(round(aandeel_gew)),"")), 
-              position = position_stack(vjust =0.5),
-              family=font, lineheight=.8)+
-    
-    labs(title=NULL, x=NULL, y = NULL) +
-    theme_os3()+ 
-    scale_fill_manual(name= NULL, values = palettes_list$wild[c(9,5,4,3)])  +
-    guides(fill = guide_legend(nrow =1, reverse = T)) +
-    facet_wrap(vars({{achtergrondvar}}))
   
+  theme <- ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = ggplot2::element_text(family = font, size = 12),
+      axis.text = ggplot2::element_text(family = font, size = 12),
+      plot.caption = ggplot2::element_text(family = font, size = 12),
+      axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+      plot.subtitle = ggplot2::element_text(family = font, size = 12),
+      legend.text = ggplot2::element_text(family = font, size = 12),
+      plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      legend.title=element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position=legend_position,
+      panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+      strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+    ) 
+  
+  if (orientation %in% c("vertical", "v")){
+    theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+  } else if (orientation %in% c("horizontal", "h")){
+    theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+  }
   
 }
 
@@ -88,19 +114,45 @@ my_figure <- function (x, achtergrondvar) {
 
 
 
-opl_levels    <- c("praktisch opgeleid", "middelbaar opgeleid", "theoretisch opgeleid","Amsterdam")
-gesl_levels   <- c("vrouw", "man", "Amsterdam")
-leefkl_levels <- c("35 jaar of jonger", "35 jaar tot en met 55 jaar", "55 jaar of ouder", "leeftijd onbekend", "Amsterdam")
-ink_levels    <- c("inkomen laag", "inkomen midden", "inkomen hoog", "onbekend", "Amsterdam")
-sd_levels     <- c("Centrum","Westpoort","West" , "Nieuw-West","Zuid" ,"Oost" , "Noord","Weesp",  "Zuidoost" ,  "Amsterdam", NA )
 
+my_figure <- function (x, achtergrondvar) {
+  
+  x |>
+    filter(
+      value %in% c(
+        "ga uit gewoonte nooit naar de markt", 
+        "geen tijd", "te duur",
+        "producten van te lage kwaliteit",  
+        "te weinig variatie in producten", 
+        "te ongezellig, te weinig sfeer")
+    )|>
+    
+    mutate(value = case_when(
+      value == 'combinatie van winkels in deze buurt en een oninteressante markt' ~ 'genoeg winkels en oninteressante markt in buurt',
+      TRUE ~ value)) |>
+  
+    ggplot(aes(
+      y = fct_relevel(fct_reorder(value, aandeel_gew), "anders"), 
+      x = aandeel_gew))+
+    
+    geom_col(fill = blauw_pal[2])+
+    geom_text(aes(label = if_else(aandeel_gew > 5,as.character(round(aandeel_gew)),"")), 
+              position = position_stack(vjust =0.5),
+              family=font, lineheight=.8, color= "white")+
+    
+    labs(title=NULL, x=NULL, y = NULL) +
+    theme_os2()+ 
+    scale_fill_manual(name= NULL, values = blauw_pal[2])  +
+    guides(fill = guide_legend(nrow =1, reverse = T)) +
+    facet_wrap(vars({{achtergrondvar}}))
+  
+  
+}
 
-
-geen_marktbezoek_sd <- red_geenmarkt_v14 |> 
+# redenen geen martkbezoek per stadsdeel
+test<- red_geenmarkt_v14 |> 
   my_geen_reden_function(gbd_sdl_naam, sd_levels)|>
   my_figure(gbd_sdl_naam)
-
-geen_marktbezoek_sd
 ggsave("04 output tabellen/fig30_reden_geenmarkt_sd.png", width = 9, height = 6)
 
 
