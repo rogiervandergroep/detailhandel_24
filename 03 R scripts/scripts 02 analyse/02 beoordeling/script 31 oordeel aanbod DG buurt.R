@@ -69,13 +69,68 @@ tabel_v8  <- bind_rows(
     filter(!is.na(gbd_sdl_naam))
   ) |>
   
-  mutate(v8_naam      = factor(v8_naam,levels = v8_levels),
-         gbd_sdl_naam = factor(gbd_sdl_naam, levels = sd_levels))
+  mutate(
+    v8_naam      = factor(v8_naam,levels = v8_levels),
+    gbd_sdl_naam = factor(gbd_sdl_naam, levels = sd_levels)
+    )|>
+  rename (categorie = v8_naam) |>
+  add_column(vraag = 'v8 oordeel aanbod winkels dagelijkse boodschappen in de buurt')
   
   
+tab_mondet24 <- list()
+
+tab_mondet24$v8 <- tabel_v8 |>
+  select(monitor, vraag, categorie, gbd_sdl_naam,  aandeel_gew)
 
 
 # fig dagelijks niet dagelijks amsterdam
+
+grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
+grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
+
+font <- "Amsterdam Sans"
+
+blauw_pal <- c("#004699", "#3858a4", "#566bb0", "#707ebb", "#8992c6", "#a1a7d2", "#b8bcdd", "#d0d2e8", "#e7e8f4")
+
+hcl <- farver::decode_colour(blauw_pal, "rgb", "hcl")
+
+label_col <- ifelse(hcl[, "l"] > 50, "black", "white")
+
+theme_os2 <- function(orientation="vertical", legend_position = "bottom"){
+  
+  
+  
+  theme <- ggplot2::theme_bw() +
+    ggplot2::theme(
+      text = ggplot2::element_text(family = font, size = 12),
+      axis.text = ggplot2::element_text(family = font, size = 12),
+      plot.caption = ggplot2::element_text(family = font, size = 12),
+      axis.title = ggplot2::element_text(family = font, hjust = 1, size = 12),
+      plot.subtitle = ggplot2::element_text(family = font, size = 12),
+      legend.text = ggplot2::element_text(family = font, size = 12),
+      plot.title = ggplot2::element_text(family = font, lineheight = 1.2, size = 12),
+      panel.grid.minor = ggplot2::element_blank(),
+      strip.background = ggplot2::element_blank(),
+      legend.title=element_blank(),
+      axis.ticks.y = element_blank(),
+      axis.ticks.x = element_blank(),
+      legend.position=legend_position,
+      panel.border = ggplot2::element_rect(fill = "transparent", color = NA),
+      strip.text = ggplot2::element_text(color = "black", family = font, face = "bold", size = 12)
+    ) 
+  
+  if (orientation %in% c("vertical", "v")){
+    theme <- theme + ggplot2::theme(panel.grid.major.x = element_blank())
+  } else if (orientation %in% c("horizontal", "h")){
+    theme <- theme + ggplot2::theme(panel.grid.major.y = element_blank())
+  }
+  
+}
+
+source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
+
+
+
 tabel_v8 |>
   
   # verwijderen data Weesp uit vorige monitors
@@ -98,7 +153,8 @@ tabel_v8 |>
   
   labs(title=NULL, x=NULL, y = NULL) +
   theme_os2()+ 
-  scale_fill_manual(name= NULL, values = palettes_list$wild[c(9,5,4,3)])  +
+  scale_fill_manual(name= NULL,  values = blauw_pal[c(9,5,4,3)])  +
+  scale_color_manual(name= NULL, values = label_col[c(9,5,4,3)]) +
   guides(fill = guide_legend(nrow =1, reverse = T)) +
   facet_wrap( ~ monitor)
 ggsave("04 output tabellen/fig1_dg_buurt.png", width = 7, height = 3)

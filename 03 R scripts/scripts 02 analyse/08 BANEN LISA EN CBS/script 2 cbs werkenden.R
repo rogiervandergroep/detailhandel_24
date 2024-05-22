@@ -3,8 +3,17 @@
 library(tidyverse)
 library(openxlsx)
 
+### CBS STATLINE ---
+
+# vestigingen Nederland -
+
+cbs_det       <- read.xlsx("00 ruwe data 2022 2023/CBS_vestigingen_det_NL.xlsx", sheet=1)
+cbs_det_omzet <- read.xlsx("00 ruwe data 2022 2023/CBS_vestigingen_det_NL.xlsx", sheet=2)
+
 
 source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
+
+
 
 
 grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))
@@ -12,6 +21,80 @@ grDevices::windowsFonts("Corbel" = grDevices::windowsFont("Corbel"))
 
 font <- "Amsterdam Sans"
 
+cbs_det <- cbs_det  |>
+  filter(sector != 'A-U Alle economische activiteiten',
+         jaar != 2013) |>
+  mutate(DG_NDG=case_when(
+    sector %in% c("471 Supermarkten en warenhuizen","472 Winkels in voedingsmiddelen") ~ 'detailhandel dagelijkse boodschappen',
+    TRUE ~ 'detailhandel niet-dagelijkse boodschappen'))|>
+  
+  mutate(branche= str_to_lower(str_sub(sector, 5)))|>
+  group_by(sector)|>
+  mutate(index= round(aantal/first(aantal)*100))
+
+
+cbs_det_omzet <- cbs_det_omzet  |>
+  filter(jaar != 2013,
+         sector != "479 Detailhandel, geen winkel of markt",
+         sector != "4711, 472 Winkels in voedingsmiddelen",
+         sector != "Detailhandel excl. auto's, tankstations",
+         sector != "Winkels in non-food, dh geen winkel"
+  )|>
+
+  mutate(DG_NDG=case_when(
+    sector %in% c("471 Supermarkten en warenhuizen","472 Winkels in voedingsmiddelen") ~ 'detailhandel dagelijkse boodschappen',
+    TRUE ~ 'detailhandel niet-dagelijkse boodschappen'))|>
+  
+  mutate(branche= str_to_lower(str_sub(sector, 5)))
+
+  
+cbs_det |>  
+  
+    ggplot(aes(y = index, x = as.numeric(jaar), group = branche))+
+    geom_line(aes(color= branche), linewidth = 1 )+
+    labs(title=NULL, x=NULL, y = NULL) +
+    theme_os()+ 
+    theme(strip.text = element_text(size = 12, family = font))+
+    scale_color_manual(name= NULL, values = wild_pal)+
+    scale_x_continuous(breaks = c(2014, 2016, 2018, 2020, 2022, 2024))+
+    guides(fill = guide_legend(reverse = T))+
+    facet_wrap(~ DG_NDG)
+
+ggsave("04 output tabellen/fig1_cbs_vest_index.png", width = 11, height = 4)
+
+
+cbs_det |>  
+  
+  ggplot(aes(y = aantal, x = as.numeric(jaar), group = branche))+
+  geom_line(aes(color= branche), linewidth = 1 )+
+  labs(title=NULL, x=NULL, y = NULL) +
+  theme_os()+ 
+  theme(strip.text = element_text(size = 12, family = font))+
+  scale_color_manual(
+    name= NULL, values = wild_pal)+
+  scale_x_continuous(breaks = c(2014, 2016, 2018, 2020, 2022, 2024))+
+  
+  guides(
+    fill = guide_legend(reverse = T))+
+  facet_wrap(~ DG_NDG)
+ggsave("04 output tabellen/fig1_cbs_vest_aant.png", width = 11, height = 4)
+
+cbs_det_omzet |>  
+  
+  ggplot(aes(y = omzet_ongecorrigeerd, x = as.numeric(jaar), group = branche))+
+  geom_line(aes(color= branche), linewidth = 1 )+
+  labs(title=NULL, x=NULL, y = NULL) +
+  theme_os()+ 
+  theme(strip.text = element_text(size = 12, family = font))+
+  scale_color_manual(name= NULL, values = wild_pal)+
+  scale_x_continuous(breaks = c(2014, 2016, 2018, 2020, 2022))+
+  guides(fill = guide_legend(reverse = T))+
+  facet_wrap(~ DG_NDG)
+ggsave("04 output tabellen/fig1_cbs_vest_omzet.png", width = 11, height = 4)
+
+#################
+### ABR POLIS ---
+#################
 
 ### tabel 1 eenvoudig ---
 tabel <- read.xlsx("00 ruwe data 2022 2023/tabel abr_polis detailhandel.xlsx") |>
@@ -120,7 +203,7 @@ my_uurloon_plot <- function (x) {
 
 
 
-opl_levels <- c('vmbo-geschoold', 'mbo-geschoold', 'hbo, wo-geschoold', 'totaal')
+opl_levels <- c('vmbo-geschoold', 'mbo-geschoold', 'hbo, wo-geschoold', 'opleiding onbekend', 'totaal')
 
 tabel_uurloon <- bind_rows(
   
@@ -137,7 +220,7 @@ tabel_uurloon <- bind_rows(
   
   filter(sector != 'overige sectoren')|>
   mutate(jaar= str_remove(jaar, "banen_bedrijven_dec"))|>
-  filter(jaar %in% c('2016', '2022')) |>
+  filter(jaar %in% c('2020',  '2022')) |>
   mutate(categorieen = factor(categorieen, levels= opl_levels))
                               
                               
@@ -203,13 +286,12 @@ my_plot<- function (x, var, var_levels) {
       aes(label = if_else(aandeel > 10, glue::glue("{aandeel}%")," "),
           group = fct_rev(categorieen)),
       position = position_stack(vjust = 0.5),
-      family = font
-      )+
+      family = font)+
     
     labs(title=NULL, x=NULL, y = NULL) +
     theme_os()+ 
     theme(
-      strip.text = element_text(size = 12, family = font))+
+      strip.text = element_text(size = 13, family = font))+
     guides(fill = guide_legend(reverse = T, ncol = 2))
   
 }

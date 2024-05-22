@@ -86,7 +86,6 @@ tabel_v19  <- bind_rows(
     my_table(geslacht, 'geslacht')|>
     mutate(item=factor(item,levels= c("vrouw", "man"))),
   
-  
   data_v19 |>
     my_table(leeftijd_klas, 'leeftijd')|>
     mutate(item=factor(item,levels= lft_levels)),
@@ -100,9 +99,16 @@ tabel_v19  <- bind_rows(
     mutate(v19_naam = factor(v19_naam,levels = v19_levels))|>
     add_column(onderwerp = 'Amsterdam', 
                item ='Amsterdam')|>
-    mutate(item=factor(item)))|>
-  mutate(v19_naam = factor(v19_naam,levels = v19_levels))
-  
+    mutate(item=factor(item))
+  )|>
+  mutate(v19_naam = factor(v19_naam,levels = v19_levels))|>
+  rename (categorie = v19_naam ) |>
+  add_column(vraag= 'v19 winkelen voor het plezier')
+
+
+
+tab_mondet24$v19 <- tabel_v19 |>
+  select(monitor, vraag, categorie, onderwerp, item,  aandeel_gew)
 
 
 grDevices::windowsFonts("Amsterdam Sans" = grDevices::windowsFont("Amsterdam Sans"))

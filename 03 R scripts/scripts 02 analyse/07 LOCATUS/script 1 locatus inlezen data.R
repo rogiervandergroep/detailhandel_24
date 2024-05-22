@@ -19,7 +19,8 @@ locatus <-list(
   read.csv (glue("{pad}VKP14.csv"))|>add_column(jaar= '2014')
 )
 
-postcode <- read.csv2("02 lookup tabellen/postcode6 naar alle indelingen 2022 alternatief aangepast.csv")
+postcode <- read.csv2("02 lookup tabellen/postcode6 naar alle indelingen 2022 alternatief aangepast.csv")|>
+  mutate(gbd_wijk_code= replace_na(gbd_wijk_code, "NA"))
 
 
 my_pc_join <-function(x){
@@ -98,7 +99,11 @@ my_summary <-function(x){
     
     x|>
       group_by(
-        gbd_sdl_code, gbd_sdl_naam, drie_gebieden,  sectoren, jaar) |>
+        gbd_sdl_code,  gbd_sdl_naam, 
+        gbd_wijk_code, gbd_wijk_naam,
+        gbd_ggw_code,  gbd_ggw_naam,
+        drie_gebieden,  
+        sectoren, jaar) |>
       
       summarise(
         aantal=n(),
@@ -115,6 +120,10 @@ my_summary <-function(x){
       )|>
       
       add_column(
+        gbd_wijk_code = 'Amsterdam',
+        gbd_wijk_naam = 'Amsterdam',
+        gbd_ggw_code  = 'Amsterdam', 
+        gbd_ggw_naam  = 'Amsterdam',
         gbd_sdl_code  = 'Amsterdam', 
         gbd_sdl_naam  = 'Amsterdam', 
         drie_gebieden = 'Amsterdam')
@@ -170,256 +179,29 @@ my_table<- function(x, group_var){
 
 sd_levels <- c("Centrum", "Westpoort", "West", "Nieuw-West", "Zuid", "Oost", "Noord", "Weesp", "Zuidoost", "Amsterdam")
 
-tabel_drie_sec<- list_df |>
-  my_table(gbd_sdl_naam)
+tabel <- list(
   
+  stadsdeel =  list_df |>
+    my_table(c("gbd_sdl_code", "gbd_sdl_naam"))|>
+    pivot_wider(names_from = jaar, values_from = value),
 
-tabel_drie_geb_sec<- list_df |>
-  my_table(drie_gebieden)
+  wijk =  list_df |>
+    my_table(c("gbd_wijk_code", "gbd_wijk_naam"))|>
+    pivot_wider(names_from = jaar, values_from = value),
 
-tabel_drie_sec_wide <- tabel_drie_sec |>
-  pivot_wider(names_from = jaar, values_from = value)
+  gebied = list_df |>
+    my_table(c("gbd_ggw_code", "gbd_ggw_naam"))|>
+    pivot_wider(names_from = jaar, values_from = value),
 
-tabel_drie_geb_sec_wide <- tabel_drie_geb_sec |>
-  pivot_wider(names_from = jaar, values_from = value)
-
-write.xlsx(list(tabel_drie_sec_wide,tabel_drie_geb_sec_wide ), "04 output tabellen/tabel_locatus.xlsx", withFilter=T, overwrite = T)
-
-
-source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
-
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("aantal vestigingen", "oppervlakte (m2)"),
-    sectoren %in% c("detailhandel dagelijks", "detailhandel niet-dagelijks"),
-    gbd_sdl_naam == "Amsterdam")|>
-  
-  ggplot(aes(x=jaar,y=value, group= sectoren))+
-  geom_line(aes(color= sectoren), size = 1.2)+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  expand_limits(y = 0)+
-  theme_os() +
-  theme(
-    strip.text = element_text(size = 12),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~name, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_01.png", width = 8, height = 3)
-
-# leegstand
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("aantal vestigingen", "oppervlakte (m2)"),
-    sectoren %in% c("leegstand"),
-    gbd_sdl_naam == "Amsterdam")|>
-  
-  ggplot(aes(x=jaar,y=value, group= sectoren))+
-  geom_line(aes(color= sectoren), size = 1.2)+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  expand_limits(y = 0)+
-  theme_os() +
-  theme(
-    legend.position = 'none',
-    strip.text = element_text(size = 12),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~name, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_leegstand.png", width = 8, height = 3)
-
-# leegstand aandeel
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("aandeel vestigingen (%)", "aandeel oppervlakte (%)"),
-    sectoren %in% c("leegstand"),
-    gbd_sdl_naam == "Amsterdam")|>
-  
-  ggplot(aes(x=jaar,y=value, group= sectoren))+
-  geom_line(aes(color= sectoren), size = 1.2)+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  expand_limits(y = 0)+
-  theme_os() +
-  theme(
-    legend.position = 'none',
-    strip.text = element_text(size = 12),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~name)
-ggsave("04 output tabellen/fig_loc_leegstand_p.png", width = 8, height = 3)
+  drie_gebied=list_df |>
+    my_table(drie_gebieden)|>
+    pivot_wider(names_from = jaar, values_from = value)
+)
 
 
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("aantal vestigingen"),
-    sectoren %in% c("detailhandel dagelijks", "detailhandel niet-dagelijks", "leegstand"),
-    gbd_sdl_naam != "Amsterdam")|>
-  ggplot(aes(x=jaar,y=value, fill= sectoren))+
-  geom_col()+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_fill_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_02.png", width = 8, height = 5)
 
 
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("oppervlakte (m2)"),
-    sectoren %in% c("detailhandel dagelijks", "detailhandel niet-dagelijks", "leegstand"),
-    gbd_sdl_naam != "Amsterdam")|>
-  ggplot(aes(x=jaar,y=value, fill= sectoren))+
-  geom_col()+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_fill_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_03.png", width = 8, height = 5)
+write.xlsx(tabel, "04 output tabellen/tabel_locatus.xlsx", withFilter=T, overwrite = T)
+write_rds(tabel, "04 output tabellen/tabel_locatus.rds")
 
 
-#leegstand per sd
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("aandeel vestigingen (%)", "aandeel oppervlakte (%)"),
-    sectoren %in% c("leegstand"),
-    !is.na(gbd_sdl_naam))|>
-  
-  ggplot(aes(x=jaar,y=value, group= name))+
-  geom_line(aes(color= name), size = 1.2)+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(breaks=seq(0, 16, 4), labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  expand_limits(y = 0)+
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam)
-ggsave("04 output tabellen/fig_loc_leegstand_sd.png", width = 8, height = 5)
-
-
-# ontwikkeling vestigingen 
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("ontw. vest."),
-    sectoren %in% c("detailhandel dagelijks", "detailhandel niet-dagelijks"),
-    gbd_sdl_naam != "Westpoort")|>
-  ggplot(aes(x=jaar,y=value, group= sectoren))+
-  geom_line(aes(color=sectoren))+
-  geom_point(aes(color=sectoren))+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_04_ves.png", width = 8, height = 5)
-
-# ontwikkeling oppervlakte
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("ontw. oppervl."),
-    sectoren %in% c("detailhandel dagelijks", "detailhandel niet-dagelijks"),
-    gbd_sdl_naam != "Westpoort")|>
-  ggplot(aes(x=jaar,y=value, group= sectoren))+
-  geom_line(aes(color=sectoren))+
-  geom_point(aes(color=sectoren))+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_04_opp.png", width = 8, height = 5)
-
-
-# ontwikkeling leegstand
-tabel_drie_sec |>
-  filter(
-    jaar != 2013,
-    name %in% c("ontw. oppervl.", "ontw. vest."),
-    sectoren %in% c("leegstand"),
-    gbd_sdl_naam != "Westpoort")|>
-  ggplot(aes(x=jaar,y=value, group= name))+
-  geom_line(aes(color=name))+
-  geom_point(aes(color=name))+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  theme_os() +
-  theme(
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~ gbd_sdl_naam, scales = "free_y")
-ggsave("04 output tabellen/fig_loc_05_leegstand.png", width = 8, height = 5)
-
-
-# ontwikkeling horeca
-tabel_drie_sec |>
-  filter(
-    jaar > 2013,
-    name %in% c("aantal vestigingen"),
-    sectoren %in% c("horeca", "ontspanning en diensten"),
-    gbd_sdl_naam == "Amsterdam")|>
-  ggplot(aes(x=jaar,y=value, group = sectoren))+
-  geom_line(aes(color=sectoren), size = 0.9)+
-  labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
-  scale_x_discrete(breaks=seq(2014, 2024, 2))+
-  expand_limits(y = 0)+
-  theme_os() +
-  theme(
-    legend.position = "none",
-    axis.text = element_text(size = 11),
-    strip.text = element_text(size = 11),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
-  scale_color_manual(values=palettes_list$wild)+
-  facet_wrap(~ sectoren)
-  
-ggsave("04 output tabellen/fig_loc_06_horeca.png", width = 8, height = 3)

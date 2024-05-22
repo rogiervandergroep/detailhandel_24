@@ -69,7 +69,7 @@ wide_table$geb <- freq_kkb_24$GEB_geb|>
   )
 
 # inlezen voorgaande jaren - 
-file_path <- ("02 lookup tabellen/kkbsd21_maart23_n.xlsx")
+file_path <- ("02 lookup tabellen/tabel kkb sd 20 22.xlsx")
 
 # Get the names of all sheets in the Excel file
 all_sheets <- getSheetNames(file_path)
@@ -78,6 +78,7 @@ all_sheets <- getSheetNames(file_path)
 tabel_sd_22 <- map(all_sheets, ~ read.xlsx(file_path, sheet = .x)) |>
   set_names(all_sheets)
 
+# voeg een lege sheet toe voor Weesp
 tabel_sd_22$Weesp <- data.frame(matrix(ncol = 14, nrow = 20)) |>
   set_names(names(tabel_sd_22$Centrum))
 
@@ -149,7 +150,7 @@ my_monitor <- function(x){
 
 ### tabel binding eigen stadsdeel   
 tabel_sd <- map(tabel_sd, my_monitor)  
-write.xlsx(tabel_sd, "04 output tabellen/tabel_kkb_sd_20tm24.xlsx", withFilter=T, overwrite = T)
+write.xlsx(tabel_sd, "04 output tabellen/tab_mondet24_kkb2024.xlsx", withFilter=T, overwrite = T)
 
 
 ### binding eigen stadsdeel
@@ -182,25 +183,4 @@ tabel_samengevat <- bind_rows(
   select(-afzet_stadsdeel_code)
   
 write.xlsx(tabel_samengevat, "04 output tabellen/tabel_kkb_sd_20tm24_samenvatting.xlsx", withFilter=T, overwrite = T)
-
-
-
-
-
-
-
-
-
-
-
-
-
-### binding online
-
-
-
-
-    
-
-
 

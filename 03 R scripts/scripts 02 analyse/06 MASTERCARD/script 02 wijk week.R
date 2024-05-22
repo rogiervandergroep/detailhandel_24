@@ -117,6 +117,14 @@ tabel_totaal <- bind_rows(
     group_by(kaarthouder, gebieden, sector) |>
     my_index(maand_jaar),
   
+  # totaal  naar SD
+  df_mastercard |> 
+    group_by(maand_jaar, sector, gebieden)|>
+    my_summary()|>
+    group_by( gebieden, sector) |>
+    my_index(maand_jaar)|>
+    add_column(kaarthouder = 'totaal'),
+  
   # totaal  naar sector
   df_mastercard |> 
     group_by(maand_jaar, sector)|>
@@ -133,6 +141,7 @@ tabel_totaal <- bind_rows(
     group_by(kaarthouder, sector) |>
     my_index(maand_jaar)|>
     add_column(gebieden = 'Amsterdam')
+
   
   )|>
   
@@ -143,6 +152,45 @@ tabel_totaal <- bind_rows(
          )
   )
 
+dataverhaal <- bind_rows(
+  
+  df_mastercard |> 
+    group_by(maand_jaar)|>
+    my_summary()|>
+    add_column(
+      sector = 'totaal',
+      gebied_code = 'Amsterdam',
+      gebied_naam = 'Amsterdam'),
+  
+  df_mastercard |> 
+    group_by(maand_jaar, gebied_code, gebied_naam)|>
+    my_summary()|>
+    add_column(sector = 'totaal'),
+
+  df_mastercard |> 
+    group_by(maand_jaar, sector)|>
+    my_summary()|>
+    add_column(
+      gebied_code = 'Amsterdam',
+      gebied_naam = 'Amsterdam'),
+
+  df_mastercard |> 
+    group_by(maand_jaar, gebied_code, gebied_naam, sector)|>
+    my_summary())|>
+  
+  filter(gebied_naam != 'Other')|>
+  
+  pivot_longer(cols= c(`bestedingen`: `transacties`))
+  
+
+list_dataverhaal <- read_rds("04 output tabellen/tabel_dataverhaal.rds")
+
+list_dataverhaal$transacties<- dataverhaal
+
+write_rds(list_dataverhaal, "04 output tabellen/tabel_dataverhaal.rds")
+  
+  
+
 
 my_plot <- function(data, xvar, yvar, vulvar, positie= "dodge"){
   
@@ -150,13 +198,11 @@ my_plot <- function(data, xvar, yvar, vulvar, positie= "dodge"){
     
     ggplot(aes(x={{xvar}}, 
                y=value,
-               fill={{vulvar}}))+
+               group={{vulvar}}))+
     
-    geom_bar(position=positie, 
-             stat="identity" )+
+    geom_line(aes(color = {{vulvar}} ))+
     
-    labs( x=NULL, 
-          y ='volume')+
+    labs( x = NULL, y = NULL)+
     
     theme(
       axis.text.x  = element_text(vjust = 1, hjust = 1),
@@ -170,45 +216,45 @@ my_plot <- function(data, xvar, yvar, vulvar, positie= "dodge"){
 }
 
 # figuur NL niet-NL
-plot_maand_NL <- tabel_totaal |>
-  filter(gebieden == 'Amsterdam',
-         sector == 'totaal',
-         kaarthouder != 'totaal',
-         name %in% c('bestedingen' )) |>
+dataverhaal |>
+  filter(sector != 'totaal',
+         name %in% c('transacties' )) |>
   my_plot(xvar = maand_jaar,
-          vulvar= name) +
+          vulvar = sector) +
+  scale_color_manual(values= wild_pal[c(1,3)])+
   scale_x_date(date_labels = "%b %y", date_breaks = "year")+
-  facet_wrap(~ kaarthouder, scales = "free_y")+
-  theme(legend.position = 'none')
- 
+  facet_wrap(~ gebied_naam)
 ggsave("04 output tabellen/fig_MA_01.png", height = 4, width = 9)
 
 
 # figuur naar gebied
-plot_maand_sd <- tabel_totaal |>
-  filter(kaarthouder != 'totaal',
+tabel_totaal |>
+  filter(kaarthouder == 'totaal',
          sector != 'totaal',
-         gebieden != 'Amsterdam',
          name %in% c('transacties' )) |>
   my_plot(xvar = maand_jaar, vulvar = sector, positie = 'stack') +
-  facet_wrap(gebieden ~ kaarthouder, ncol=2)+
-  scale_x_date(date_labels = "%b %y", date_breaks = "year")+
+  facet_wrap(~ gebieden)+
+  scale_color_manual(values= wild_pal)+
+  scale_x_date(date_labels = "%B %y", date_breaks = "year")+
   guides(fill = guide_legend(nrow =3, reverse = F)) 
-  
-
 ggsave("04 output tabellen/fig_MA_02t.png", height = 5, width = 9)
 
 
 # figuur naar sector
-plot_maand_sector <- tabel_totaal |>
-  filter(kaarthouder == 'totaal',
-         sector != 'totaal',
-         sector != 'Detailhandel niet-dagelijks: Overig',
-         gebieden == 'Amsterdam',
-         name %in% c('bestedingen' )) |>
-  my_plot(xvar = maand_jaar, vulvar= name) +
-  scale_x_date(date_labels = "%b %y", date_breaks = "year")+
-  facet_wrap(~ sector, ncol=2)+
-  theme(legend.position = 'none')
-ggsave("04 output tabellen/fig_MA_03.png", height = 5, width = 9)
+tabel_totaal |>
+  filter(
+    kaarthouder == 'totaal',
+    sector != 'totaal',
+    sector != 'Hotel-Motel',
+    sector != 'Restaurant-cafés',
+    name %in% c('transacties' )) |>
+  
+  my_plot(xvar = maand_jaar, vulvar = sector) +
+  
+  scale_x_date(
+    date_labels = "%b %y", 
+    breaks = as_date(c("2019-01-01", "2021-01-01", "2023-01-01"))) +
+  scale_color_manual(values= wild_pal)+
+facet_wrap(~gebieden)
+ggsave("04 output tabellen/fig_MA_03.png", height = 4, width = 8)
 

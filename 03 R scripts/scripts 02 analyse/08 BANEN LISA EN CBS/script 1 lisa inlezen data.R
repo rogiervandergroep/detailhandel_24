@@ -8,6 +8,8 @@ source("03 R scripts/scripts 02 analyse/08 LISA BANEN/script 00 setup.R")
 
 ### uit de referentiedatabase zonder geo heel amsterdam ---
 
+
+# NB: data is nu van 13 tot 24
 lisa_data12_22 <- bind_rows(
   
   # data Amsterdam totaal
@@ -67,7 +69,7 @@ lisa_data_totaal <- lisa_data_DEF |>
   pivot_wider(values_from = c(aantal_vestigingen, aantal_banen), names_from = sector)
 
 
-write.xlsx(list(lisa_data_DEF,lisa_data_totaal), "04 output tabellen/tabel_lisa12_22.xlsx", overwrite = T)
+write.xlsx(list(lisa_data_DEF,lisa_data_totaal), "04 output tabellen/tabel_lisa13_23.xlsx", overwrite = T)
                                                      
 source("http://gitlab.com/os-amsterdam/tools-onderzoek-en-statistiek/-/raw/main/R/load_all.R")
 
@@ -82,15 +84,14 @@ lisa_data_DEF |>
   summarise (aantal_vestigingen=sum(aantal_vestigingen),
              aantal_banen=sum(aantal_banen))|>
   
-  ggplot(aes(x=peildatum,y=aantal_banen))+
+  ggplot(aes(x=year(peildatum), y=aantal_banen))+
   geom_col(fill = palettes_list$blauw[2])+
   labs(x=NULL, y=NULL)+
   scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
   theme_os() +
   theme(
     strip.text = element_text(size = 12),
-    plot.title   = element_text(hjust = 0.5),
-    axis.title.y = element_text(hjust = 0.5))+
+    plot.title   = element_text(hjust = 0.5))+
   scale_fill_manual(values=palettes_list$blauw[c(2,5)])+
   facet_wrap(~ detailhandel_omschrijving, scales = "free_y")
 ggsave("04 output tabellen/fig_lisa_DG.png", width = 8, height = 4)
@@ -113,10 +114,11 @@ lisa_data_DEF |>
     TRUE ~ detailhandel_omschrijving)
   ) |>
   
-  ggplot(aes(x=peildatum,y=aantal_banen))+
+  ggplot(aes(x=year(peildatum),y=aantal_banen))+
   geom_col(fill = palettes_list$blauw[2])+
   labs(x=NULL, y=NULL)+
-  scale_y_continuous(labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
+  scale_y_continuous(
+    labels = \(x) scales::comma(x, decimal.mark = ",", big.mark = "."))+
   theme_os() +
   theme(
     strip.text = element_text(size = 12),

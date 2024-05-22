@@ -135,12 +135,17 @@ tabel_centrum_l <- tabel_centrum |>
       name, levels = name_lev))
 
 
+list_dataverhaal <- list()
+
+
+list_dataverhaal$kkb_sd_20_24 <- tabel_samengevat_l
 
 
 
+### voor tabel publicatie en dataverhaal ---
 
 
-### voor tabel publicatie ---
+
 
 tabel_samengevat_l |>
   pivot_wider (values_from = value, names_from = name)|>
@@ -152,6 +157,16 @@ tabel_centrum |>
 
 save(tabel_samengevat_l, tabel_centrum_l, file = "03 tussentijds/tabel_kkb_samenvatting.Rdata")
 
+# overzicht 2012 - 2024 
+
+tabel_12_24 <- read.xlsx("03 tussentijds/kkb_ams12_24.xlsx")|>
+  group_by(sdl_centrum,	productgroep,	jaar)|>
+  summarise(waarde= sum(waarde))
 
 
+list_dataverhaal$kkb_ams_12_24 <- tabel_12_24
+
+
+
+saveRDS(list_dataverhaal, "04 output tabellen/tabel_dataverhaal.rds")
 

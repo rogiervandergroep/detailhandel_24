@@ -181,5 +181,32 @@ openxlsx:: write.xlsx(tabel_list_marktfreq, "04 output tabellen/tabellen_marktfr
 openxlsx:: write.xlsx(tabel_list_marktnaam, "04 output tabellen/tabellen_markt.xlsx", withFilter=T, overwrite = T)
 
 
+
 save( tabel_list_geenmarkt, tabel_list_marktfreq, tabel_list_marktnaam, file= "03 tussentijds/tabellen_markten_def.RData")
+
+
+
+my_select<- function(x) {
+  
+  x |>
+    select(-c("aantal", "aantal_gew", "aandeel"))
+}
+
+tabel_list_marktfreq <- tabel_list_marktfreq |>
+  map(\(x) my_select(x))
+tabel_list_marktfreq["tab_v1_wijk"]<- NULL  
+
+tabel_list_marktnaam <- tabel_list_marktnaam |>
+  map(\(x) my_select(x))
+tabel_list_marktnaam["tab_v1_wijk"]<- NULL  
+
+openxlsx:: write.xlsx(tabel_list_marktfreq, "04 output tabellen/tab_mondet24_martkfreq.xlsx", withFilter=T, overwrite = T)
+openxlsx:: write.xlsx(tabel_list_marktnaam, "04 output tabellen/tab_mondet24_martknaam.xlsx", withFilter=T, overwrite = T)
+
+  
+  
+  
+  
+  
+
 

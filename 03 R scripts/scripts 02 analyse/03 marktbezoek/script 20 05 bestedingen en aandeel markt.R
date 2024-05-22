@@ -284,7 +284,7 @@ my_plot2<- function(x, yvar){
   
 }
 
-# figuur geschat bedrag
+# figuur geschat bedrag per sd
 tabel_ams_sd|>
   filter(
     name == 'geschat bedrag') |>
@@ -292,6 +292,34 @@ tabel_ams_sd|>
   my_plot2(fct_relevel(fct_rev(gbd_sdl_naam), "Amsterdam")) +
   facet_wrap(~ monitor)
 ggsave("04 output tabellen/fig_v2_kosten_sd.png", width = 7, height = 3)  
+
+
+# figuur geschat bedrag per huishoudtype
+
+tabel_def<- bind_rows(
+  
+  tabel_ams_sd |>
+    add_column(
+      huishouden_klas = 'Amsterdam',
+      inkomen_klas = 'Amsterdam'), 
+  
+  tabel_ink_hh  |>
+    add_column(
+      gbd_sdl_naam = 'Amsterdam')
+)
+
+tabel_def|>
+  filter(
+    gbd_sdl_naam == 'Amsterdam',
+    huishouden_klas != 'overig, of huishoudtype onbekend',
+    inkomen_klas == 'Amsterdam',
+    name == 'geschat bedrag') |>
+  
+  my_plot2(fct_rev(monitor)) +
+  facet_wrap(~ fct_relevel(fct_reorder(huishouden_klas, value), 'Amsterdam', after = Inf))
+ggsave("04 output tabellen/fig_v2_kosten_hh.png", width = 7, height = 3)  
+
+
 
 tabel_ink|>
   filter(

@@ -38,13 +38,6 @@ data_v5<- data_def |>
       v5 == 'weet niet, geen antwoord' ~ 'weet niet',
       TRUE ~ v5))
 
-tabel_v5 <- data_v5 |>
-  group_by(v5, monitor) |>
-  summarise(aantal     = n(),
-            aantal_gew = sum(weeg_ams, na.rm=T))|>
-  group_by(monitor) |>
-  mutate(aandeel     = round(aantal / sum (aantal, na.rm=T) * 100, 2),
-         aandeel_gew = round(aantal_gew / sum (aantal_gew, na.rm=T)*100, 2))
 
 
 sd_levels    <- c("Centrum","Westpoort","West","Nieuw-West","Zuid","Oost","Noord","Weesp","Zuidoost","Amsterdam totaal","Amsterdam")
@@ -71,6 +64,18 @@ my_v5_function <- function(x, var, var_levels) {
 tabel_v5_achtergr <- bind_rows(
   
   data_v5 |>
+    group_by(v5, monitor) |>
+    summarise(aantal     = n(),
+              aantal_gew = sum(weeg_ams, na.rm=T))|>
+    group_by(monitor) |>
+    mutate(aandeel     = round(aantal / sum (aantal, na.rm=T) * 100, 2),
+           aandeel_gew = round(aantal_gew / sum (aantal_gew, na.rm=T)*100, 2)) |>
+    add_column(
+      thema = "Amsterdam",
+      onderwerp = 'Amsterdam'),
+  
+  
+  data_v5 |>
     my_v5_function (gbd_sdl_naam)|>
     add_column(thema = "stadsdeel")|>
     mutate(onderwerp = factor(onderwerp, levels = sd_levels)),
@@ -91,7 +96,19 @@ tabel_v5_achtergr <- bind_rows(
     add_column(thema= "inkomensklasse")|>
     mutate(onderwerp = factor(onderwerp, levels = ink_levels))
 
-)
+) |>
+  rename (categorie = v5 ) |>
+  add_column(vraag= 'v5 meest gekozen vervoersmiddel om boodschappen te doen')
+
+
+
+tab_mondet24$v5 <- tabel_v5_achtergr |>
+  select(monitor, vraag, categorie, onderwerp, thema,  aandeel_gew)
+
+
+write.xlsx(tab_mondet24, "04 output tabellen/tab_mondet24_overigevragen.xlsx")
+
+
 
 my_plot <- function (x, yvar){
   

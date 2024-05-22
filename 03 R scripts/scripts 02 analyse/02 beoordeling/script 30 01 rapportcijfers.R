@@ -404,8 +404,7 @@ wg_sd_kl <- wg_sd |>
 
 
 tabel_figuur<-gem_totaal|>  
-  filter(aantal > 19,
-         productgroep == 'winkelgebied voor dagelijkse boodschappen') |>
+  filter(aantal > 19) |>
   
   pivot_wider(names_from = item, values_from = gemiddelde, values_fill = 0, id_cols = -thema) |>
   filter (winkelgebied_naam != 'geen winkelstraat/gebied',
@@ -413,7 +412,7 @@ tabel_figuur<-gem_totaal|>
   left_join(wg_sd_kl, by= "winkelgebied_code") |>
   relocate (winkelgebied_code, winkelgebied_naam,winkelgebied_oiscode, winkelgebied_oisnaam)
 
-write.xlsx(tabel_figuur, "04 output tabellen/tabel_rapportcijfers24.xlsx", withFilter=T, overwrite=T)
+write.xlsx(tabel_figuur, "04 output tabellen/tab_mondet24_rapportcijfers24.xlsx", withFilter=T, overwrite=T)
 
 tabel_figuur<-gem_totaal|>  
   filter(aantal > 19) |>

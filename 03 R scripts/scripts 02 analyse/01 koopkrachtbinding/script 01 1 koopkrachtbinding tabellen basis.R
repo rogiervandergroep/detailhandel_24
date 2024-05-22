@@ -89,35 +89,36 @@ my_pivot_2dg  <- function (x, pcol){
   
 }
 
-
+df_omzetcijfers <- df_omzetcijfers |>
+  set_names(c("pdg_code","pdg_naam","pdg_omzetcijfers"))
 
 data24$ndg <- bind_rows( 
   
   # in winkelgebieden
-  data_24_weeg |>  
-    select (any_of(c(sel_basis, pdg_code)))|>
-    my_pivot_1(pcol=any_of(pdg_code)),
+  data_def$data_24_def |>  
+    select (any_of(c(sel_basis, pdg$code)))|>
+    my_pivot_1(pcol=any_of(pdg$code)),
   
   # overig
-  data_24_weeg |>
-    select (any_of(c(sel_basis, pdg_anders)))|>
-    my_pivot_2ndg(pcol=any_of(pdg_anders))) |>
+  data_def$data_24_def  |>
+    select (any_of(c(sel_basis, pdg$anders)))|>
+    my_pivot_2ndg(pcol=any_of(pdg$anders))) |>
   
   left_join(df_omzetcijfers, by= c("productgroep_code"="pdg_code"))
          
 
 data24$dg <- bind_rows( 
   
-  data_24_weeg |>
+  data_def$data_24_def |>
     select (any_of(c(sel_basis, "V1_nw")))|>
     my_pivot_1(pcol= any_of("V1_nw")),
+
   
-  
-  data_24_weeg |>
+  data_def$data_24_def |>
     select (any_of(c(sel_basis, "V1_nw_Codes")))|>
     my_pivot_2dg(pcol= any_of("V1_nw_Codes")))  |>
   
-  add_column(omzetcijfers= 1,
+  add_column(pdg_omzetcijfers= 1,
              pdg_naam = 'dagelijkse producten')
 
 # samenvoegen dagelijks en niet dagelijkse prodctgroepen en weghalen nvt 
@@ -125,7 +126,7 @@ data24$dg <- bind_rows(
 data24$totaal <- bind_rows(data24$dg, data24$ndg) |>
   filter (winkelgebied_code != 999)
   
-freq_kkb_24<-list()
+freq_kkb_24 <- list()
 
 my_summary_1 <- function(x, weeg_inw, weeg_ink) {
   
@@ -134,9 +135,9 @@ my_summary_1 <- function(x, weeg_inw, weeg_ink) {
     summarise(
       aantal            =  n(),
       aantal_gw         =  sum( {{weeg_inw}}, na.rm=T),
-      aantal_gw_omz     =  sum(({{weeg_inw}}*omzetcijfers), na.rm = T),
+      aantal_gw_omz     =  sum(({{weeg_inw}}*pdg_omzetcijfers), na.rm = T),
       aantal_gw_ink     =  sum( {{weeg_ink}}, na.rm=T),
-      aantal_gw_omz_ink =  sum(({{weeg_ink}}*omzetcijfers), na.rm = T),
+      aantal_gw_omz_ink =  sum(({{weeg_ink}}*pdg_omzetcijfers), na.rm = T),
       )
     
     
@@ -174,7 +175,7 @@ freq_kkb_24$AMS <-  data24$totaal  |>
 
 # maak een basis lookuptable van winkelgebieden 
 
-# write.xlsx(freq_kkb_24$AMS, "02 lookup tabellen/winkelgebieden24_basis.xlsx")
+write.xlsx(freq_kkb_24$AMS, "02 lookup tabellen/winkelgebieden24_basis.xlsx")
 
 
 # inlezen defintieve lookup tabel winkelgebieden met afzet_wijk, gebied en sd

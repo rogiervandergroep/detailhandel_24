@@ -96,10 +96,17 @@ my_plot <- function (x, groupvar, fillvar = marktbezoek ){
     
     ggplot(aes(x= aandeel_gew, y= {{groupvar}}, fill= {{fillvar}} ))+
     geom_col()+
+    geom_text(
+      aes(
+        label = if_else(aandeel_gew > 5,as.character(round(aandeel_gew)),""),
+        color = {{fillvar}}), 
+      position = position_stack(vjust =0.5),
+      family=font, lineheight=.8)+
     labs(title=NULL, x=NULL, y = NULL) +
     theme_os()+ 
-    scale_fill_manual(name= NULL, values = wild_pal) +
-    guides(fill = guide_legend(reverse = T))
+    scale_fill_manual(name= NULL, values = blauw_pal[c(5,1)]) +
+    scale_color_manual(name= NULL, values = label_col[c(5,1)]) +
+    guides(fill = guide_legend(reverse = T), color = 'none')
   
   
 }
@@ -113,6 +120,73 @@ tabel_list_geenmarkt$tab_v1_sd|>
   
   my_plot(fct_rev(gbd_sdl_naam))
 ggsave("04 output tabellen/fig1_geenmarktbez_sd.png", width= 7, height = 4)
+
+
+# naar leeftijd en stadsdeel
+tabel_lft_sd <- bind_rows( 
+  
+  tabel_list_geenmarkt$tab_v1_sd_lft|>
+  
+  filter(
+    !is.na(leeftijd_klas),
+    !is.na(gbd_sdl_naam),
+    gbd_sdl_naam != 'Westpoort'), 
+  
+  tabel_list_geenmarkt$tab_v1_leefklas|>
+    add_column(gbd_sdl_naam = 'Amsterdam')) |>
+  
+  mutate(
+    gbd_sdl_naam=factor(
+      gbd_sdl_naam,levels = c(
+        "Centrum","Westpoort", "West", "Nieuw-West", "Zuid", "Oost",
+        "Noord", "Weesp", "Zuidoost", "Amsterdam")))
+
+# plot naar leeftijd en stadsdeel
+tabel_lft_sd |>
+  filter(
+    monitor == 'monitor 2024',
+    leeftijd_klas != 'onbekend',)|>
+  
+  my_plot(fct_rev(leeftijd_klas))+
+    facet_wrap(~ fct_relevel(gbd_sdl_naam, "Amsterdam", after= Inf))
+ggsave("04 output tabellen/fig1_geenmarktbez_lft_sd.png", width = 8, height = 4)
+
+
+# tabel naar inkomen en sd
+tabel_ink_sd <- bind_rows( 
+  
+  tabel_list_geenmarkt$tab_v1_sd_ink|>
+    
+    filter(
+      !is.na(inkomen_klas),
+      !is.na(gbd_sdl_naam),
+      gbd_sdl_naam != 'Westpoort'), 
+  
+  tabel_list_geenmarkt$tab_v1_ink|>
+    add_column(gbd_sdl_naam = 'Amsterdam')) |>
+  
+  mutate(
+    gbd_sdl_naam=factor(
+      gbd_sdl_naam,levels = c(
+        "Centrum","Westpoort", "West", "Nieuw-West", "Zuid", "Oost",
+        "Noord", "Weesp", "Zuidoost", "Amsterdam")))
+
+# plot naar leeftijd en stadsdeel
+tabel_ink_sd |>
+  filter(
+    monitor == 'monitor 2024',
+    inkomen_klas != 'inkomen onbekend',
+    inkomen_klas != 'totaal')|>
+  
+  mutate(inkomen_klas=factor(inkomen_klas, 
+                             levels = c("inkomen laag", "inkomen midden", "inkomen hoog"))) |>
+  
+  my_plot(fct_rev(inkomen_klas))+
+  facet_wrap(~ fct_relevel(gbd_sdl_naam, "Amsterdam", after= Inf))
+ggsave("04 output tabellen/fig1_geenmarktbez_ink_sd.png", width = 8, height = 4)
+
+
+
 
 # Samenvoegen Amsterdam totaal met Stadsdelen - 
 
@@ -157,25 +231,40 @@ max_markt <- tabel_list_marktnaam$tab_v1_ams|>
   filter(v15_schoon!= 'bezoekt geen markt',
          v15_schoon!= 'bezoekt markt, markt onbekend',
          monitor =='monitor 2024')|>
-  slice_max(aandeel_gew, n=15, with_ties = F) |>
+  slice_max(aandeel_gew, n=10, with_ties = F) |>
   pull( v15_schoon)
 
 # meest bezochte markt totaal
-tabel_list_marktnaam$tab_v1_ams|>
+tabel <- tabel_list_marktnaam$tab_v1_ams|>
   filter(v15_schoon %in% max_markt)|>
-  mutate(v15_schoon=factor(v15_schoon, levels = max_markt))|>
-  select(-aantal)|>
-  pivot_wider(values_from = aandeel_gew, names_from = monitor , values_fill = 0) |>
-  pivot_longer(cols= c('monitor 2020': 'monitor 2024'), names_to = 'monitor', values_to = 'aandeel_gew') |>
+  mutate(v15_schoon = factor(v15_schoon, levels = max_markt))|>
+  select(-(c("aantal", "aantal_gew", "aandeel")))|>
+  pivot_wider(
+    values_from = aandeel_gew, 
+    names_from = monitor, 
+    values_fill = 0) |>
+  pivot_longer(
+    cols= c('monitor 2020': 'monitor 2024'), 
+    names_to = 'monitor', 
+    values_to = 'aandeel_gew') 
+
+
+tabel |>
+  mutate(aandeel_gew = round(aandeel_gew))|>
   ggplot(aes(x= aandeel_gew, 
-             y= fct_rev(v15_schoon),
-             fill=fct_rev(monitor)))+
-  geom_col(position = "dodge")+
+             y= fct_rev(v15_schoon)))+
+  geom_col(fill = blauw_pal[2])+
+  geom_text(
+    aes(label = glue::glue("{aandeel_gew}%")), 
+    position = position_dodge(width = .9 ),
+    hjust = -0.2,
+    family = font)+
   labs(title=NULL, x=NULL, y = NULL) +
   theme_os2()+ 
-  scale_fill_manual(name= NULL, values = blauw_pal[c(2,5,8)]) +
-  guides(fill = guide_legend(nrow = 1, reverse = T))
-ggsave("04 output tabellen/fig2_marktbez_ams.png", width= 7, height = 5)
+  scale_fill_manual(name= NULL) +
+  guides(fill = guide_legend(nrow = 1, reverse = T))+
+  facet_wrap(~ monitor)
+ggsave("04 output tabellen/fig2_marktbez_ams.png", width= 7, height = 3)
 
 
 ### meest bezochte markt per stadsdeel ---
