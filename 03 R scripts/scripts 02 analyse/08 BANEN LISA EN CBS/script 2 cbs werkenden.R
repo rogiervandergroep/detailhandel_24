@@ -160,7 +160,9 @@ cbs_data$woonpl <- read.xlsx(pad, sheet = "sec_woonpl")|>
     categorieen == 'Amsterdam' ~ 'Amsterdam',
     categorieen == 'woonplaats buiten MRA' ~ 'woonplaats buiten MRA',
     TRUE ~ 'overig MRA')
-  )
+  ) |>
+  group_by(jaar, categorieen, sector, indicator)|>
+  summarise(aantal_banen=sum(aantal_banen))
 
 
 
@@ -323,3 +325,13 @@ ggsave("04 output tabellen/fig1_abrpolis_lft_lft.png", width = 11, height = 4)
 
        
 
+
+list_dataverhaal <- read_rds("04 output tabellen/tabel_dataverhaal.rds")
+
+list_dataverhaal$werkenden  <- cbs_data_df |>
+  mutate(jaar = str_remove_all(jaar, 'banen_bedrijven_dec'))|>
+  select(jaar, categorieen, sector, indicator, aandeel )|>
+  filter(indicator != 'etnische achtergrond')
+
+write_rds(list_dataverhaal, "04 output tabellen/tabel_dataverhaal.rds")
+write.xlsx(list_dataverhaal,"04 output tabellen/tabel_dataverhaal.xlsx", withFilter=T, overwrite = T) 
